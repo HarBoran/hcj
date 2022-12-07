@@ -31,7 +31,12 @@
 				<input type = "button" value = "${i}*${j}"/>
 			</c:forEach><br>
 		</c:forEach>
-	</form>  
+	</form> 
+	
+	<div class="container">
+	  <div class="screen"></div>
+	  .row*6>.seat*8
+	</div>
 	
 	<a href="hcj_servlet?command=list" class="btn btn-info">back to the moive list</a>
 

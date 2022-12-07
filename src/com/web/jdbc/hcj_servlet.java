@@ -43,11 +43,11 @@ public class hcj_servlet extends HttpServlet {
 			}
 			
 			switch(checkPage) {
-				case "reservation":
-					reservationMovies(request, response);
+				case "movieTime":
+					movieTime(request, response);
 					break;
 				case "seatSelection":
-					selectionMovies(request, response);
+					seatSelection(request, response);
 					break;
 				default:
 					listMovies(request, response);
@@ -66,12 +66,11 @@ public class hcj_servlet extends HttpServlet {
 	
 	
 
-	public void reservationMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public void movieTime(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		out.println("<html><body>");		
-		out.println("success reservationMovies<br>");
 		out.println("<h2>here is the servlet</h2>");
 		out.println("<a href ='MovieTime.jsp'>go to moive Time.jsp</a>");
 		out.println("</html></body>");
@@ -83,12 +82,11 @@ public class hcj_servlet extends HttpServlet {
 	
 	
 	
-	private void selectionMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	private void seatSelection(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		out.println("<html><body>");		
-		out.println("success reservationMovies<br>");
 		out.println("<h2>here is the servlet</h2>");
 		out.println("<a href ='SeatSelection.jsp'>go to SeatSelection</a>");
 		out.println("</html></body>");

@@ -28,9 +28,16 @@
 		</c:url>
 		<a href = "${tempLink}" class="btn btn-outline-warning">Update</a>
 		 --%>
- 		<a href="hcj_servlet?command=reservation&moviename=owl">
+ 		<a href="hcj_servlet?command=movieTime&moviename=owl">
+ 			<img src = "image/owl.jpg" width="200px"/>
+ 		</a>
+ 		
+ 		<form action = "hcj_servlet" method="GET">
 			<img src = "image/owl.jpg" width="200px"/>
-		</a>
+			<input type="hidden" name="command" value="movieTime" />
+		    <input type="hidden" name = "moviename" value ="owl">
+		</form>
+
 		<br>
 		<a href="hcj_servlet?command=list" class="btn btn-info">Refresh</a>
 <%-- 	<c:forEach/> --%>
