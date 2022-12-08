@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="iso-8859-1">
+<meta charset="ISO-8859-1">
 <title>SeatSelection</title>
 	<!-- 부트스트랩 -->
   	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,7 @@
  	input[class="seat_reserved"] {
 		display: none;
 	}
-	/* 좌석이 선택되기전 디자인 */
+	/* 체크박스가 선택되기전 디자인 */
 	input[class="seat_box"] + label {
 		display: inline-block;
 		width: 30px;
@@ -35,13 +35,12 @@
 		background-color: #123456;
 		cursor: pointer;
 	}
-	/* 죄석을 선택 한 후의 디자인 */
+	/* 체크박스가 선택 된 후의 디자인 */
 	input[class="seat_box"]:checked + label {
-		background-color: #8b00ff;		
-		/* background-image:url("체크 안된 상태의 이미지.png"); */
+		background-color: #8b00ff;
 		/* background: url('./images/check-off.png') no-repeat 0 0px / contain; */
 	}
-	/* 이미 예약된 좌석의 디자인 */
+	
 	input[class="seat_reserved"]:checked + label {
 		display: inline-block;
 		width: 30px;
@@ -65,6 +64,7 @@
 	<form action = "hcj_servlet" method="GET" class="was-validated">		
 		
 		<c:forEach var = "temp_seat" items = "${select_seat}" varStatus="status">
+		${temp_seat.reservation_check}
 			<c:if test="${temp_seat.reservation_check eq 'NO'}">
 				<input type = "checkbox" id = "seat_box_${status.count}" class = seat_box value = "seat_name">
 				<label for="seat_box_${status.count}"></label>

@@ -2,6 +2,7 @@ package com.web.jdbc;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
@@ -20,16 +21,16 @@ import javax.sql.DataSource;
 public class hcj_servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-//	private movie_model movie_model;
-//	
-//	//어떤 데이터 베이스와 연결할 것인가?
-//	@Resource(name="jdbc/hcj")
-//	private DataSource dataSource;
-//
-//	@Override
+	private hcj_model hcj_model;
+	
+	//어떤 데이터 베이스와 연결할 것인가?
+	@Resource(name="jdbc/project")
+	private DataSource dataSource;
+
+	@Override
 	public void init(ServletConfig config) throws ServletException {
-//		// TODO Auto-generated method stub
-//		movie_model = new movie_model(dataSource);
+		// TODO Auto-generated method stub
+		hcj_model = new hcj_model(dataSource);
 	}
 
 
@@ -42,6 +43,7 @@ public class hcj_servlet extends HttpServlet {
 				checkPage = "list";
 			}
 			
+			System.out.println("checkPage = " + checkPage);
 			switch(checkPage) {
 				case "movieTime":
 					movieTime(request, response);
@@ -67,34 +69,54 @@ public class hcj_servlet extends HttpServlet {
 	
 
 	public void movieTime(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	      
+		String moviename = request.getParameter("moviename");
+	      int moviename1 = 0;
+	      switch(moviename) {
+	            case "Iron_Man" :
+	               moviename1 = 1;
+	               break;
+	            case "Spider_Man":
+	               moviename1 = 2;
+	               break;
+	            case "Thor" :
+	               moviename1 = 3;
+	               break;
+	            case "Captin_America" :
+	               moviename1 = 4;
+	               break;   
+	      }
+	      List<movie_dto> movieschedule = hcj_model.MovieTime(moviename1);
+	      request.setAttribute("scheduleList", movieschedule);
+	      
+	       RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieTime.jsp");
+	         dispatcher.forward(request, response);
+	      
+//	      PrintWriter out = response.getWriter();
+//	      response.setContentType("text/html");
+//	      out.println("<html><body>");      
+//	      out.println("<h2>here is the servlet</h2>");
+//	      out.println("<a href ='MovieTime.jsp'>go to moive Time.jsp</a>");
+//	      out.println("</html></body>");
+	      //response.sendRedirect(request.getContextPath()+"/hcj_servlet?command=list");
+	      
+	   }
 
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
-		out.println("<html><body>");		
-		out.println("<h2>here is the servlet</h2>");
-		out.println("<a href ='MovieTime.jsp'>go to moive Time.jsp</a>");
-		out.println("</html></body>");
-		//response.sendRedirect(request.getContextPath()+"/hcj_servlet?command=list");
-		
-	}
 	
 	
 	
 	
 	
 	private void seatSelection(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
-		out.println("<html><body>");		
-		out.println("<h2>here is the servlet</h2>");
-		out.println("<a href ='SeatSelection.jsp'>go to SeatSelection</a>");
-		out.println("</html></body>");
-		
-		
-		int i = Integer.parseInt(request.getParameter("seatnumber"));
-		out.print("좌석번호" + i +"를 선택하였습니다.");
-		
+		//request.setAttribute("",);
+		//request.setAttribute("",);
+		//request.setAttribute("",);
+		//sch_num을 변수로 받아 좌석을 조회함
+		List<seat_dto> seats = hcj_model.loadSeat(1);
+		request.setAttribute("select_seat", seats);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SeatSelection.jsp");	  
+		dispatcher.forward(request, response);			
 	}
 	
 	

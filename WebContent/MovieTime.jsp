@@ -2,10 +2,9 @@
 <%@ page import= "com.web.jdbc.*" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <title>MovieTicket</title>
-	<meta charset="utf-8">
 	<!-- 부트스트랩 -->
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -24,11 +23,42 @@
 	
 
 <body>
+
+
+<table border = 1 >
+  <tr>
+               <th>theater</th>
+               <th>date</th>
+               <th>time</th>
+               <th>reservation</th>
+   </tr>
+<c:forEach var = "List" items = "${scheduleList}">
+ <tr>
+ <c:url var ="seat_reservation" value="/hcj_servlet">
+ <c:param name ="command" value="seatSelection"/>
+ <c:param name="theater" value= "${List.theater}"></c:param>
+ <c:param name ="date" value = "${List.date}"></c:param>
+ <c:param name="time" value = "${List.time}"></c:param>               
+ </c:url>
+<td>${List.theater}</td>
+
+<td>${List.date}</td>
+
+<td>${List.time}</td>
+
+<td><a href ="${seat_reservation}">seat_reservation</a></td>
+</tr>
+</c:forEach>
+
+</table>
+
+<br><br>
+
 <input type="date" id="date" max="2022-12-26" min="2022-12-07" value="2022-12-07">
-	<br>
-	<a href="hcj_servlet?command=seatSelection" class="btn btn-primary">select time</a>
-	<br>
-	<br>
-	<a href="hcj_servlet?command=list" class="btn btn-info">back to the moive list</a>
+   <br>
+   <a href="hcj_servlet?command=seatSelection" class="btn btn-primary">select time</a>
+   <br>
+   <br>
+   <a href="hcj_servlet?command=list" class="btn btn-info">back to the movie list</a>
 </body>
 </html>
