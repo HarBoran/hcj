@@ -19,14 +19,15 @@
     <script src = "js/script.js"></script>
 
 	<style>
-	/* css가 적용되기전에 체크박스 숨기기 */
+	/* css not applied checkbox not visible */
 	input[class="seat_box"] {
 		display: none;
 	}
+	/* css not applied checkbox not visible */
  	input[class="seat_reserved"] {
 		display: none;
 	}
-	/* 좌석이 선택되기전 디자인 */
+	/* empty seat unchecked */
 	input[class="seat_box"] + label {
 		display: inline-block;
 		width: 30px;
@@ -35,14 +36,14 @@
 		background-color: #123456;
 		cursor: pointer;
 	}
-	/* 죄석을 선택 한 후의 디자인 */
+	/* empty seat checked */
 	input[class="seat_box"]:checked + label {
 		background-color: #8b00ff;		
-		/* background-image:url("체크 안된 상태의 이미지.png"); */
+		/* background-image:url('./images/check-off.png'); */
 		/* background: url('./images/check-off.png') no-repeat 0 0px / contain; */
 	}
-	/* 이미 예약된 좌석의 디자인 */
-	input[class="seat_reserved"]:checked + label {
+	/* reserved seat */
+	input[class="seat_reserved"] + label {
 		display: inline-block;
 		width: 30px;
 		height: 30px;
@@ -60,39 +61,33 @@
 		</a>
 	</div>
 	
-	<h3>좌석 선택하기</h3>
+	<h3>Seat Choice</h3>
 
-	<form action = "hcj_servlet" method="GET" class="was-validated">		
-		
-		<c:forEach var = "temp_seat" items = "${select_seat}" varStatus="status">
-			<c:if test="${temp_seat.reservation_check eq 'NO'}">
-				<input type = "checkbox" id = "seat_box_${status.count}" class = seat_box value = "seat_name">
-				<label for="seat_box_${status.count}"></label>
-			</c:if>
-			<c:if test="${temp_seat.reservation_check eq 'YES'}">
-				<input type = "checkbox" id = "seat_reserved_${status.count}" class = seat_reserved checked disabled>
-				<label for="seat_reserved_${status.count}"></label>
-			</c:if>
-			<%-- ${status.count} ${temp_seat.seat_index} ${temp_seat.seat_name} --%>
-			<c:if test="${status.count % 10 eq 0}">
+	<form action = "hcj_servlet" method="GET" class="was-validated">
+		<input type="hidden" name="command" value="reservation" />
+		<input type="hidden" name="sch_num" value="${sch_num}"/>
+
+		<c:forEach var = "temp_seat" items = "${select_seat}">
+			
+			<c:choose>
+				<c:when test="${temp_seat.sch_num eq 0}">
+					<input type = "checkbox" id = "seat_box_${temp_seat.seat_index}" class = "seat_box">
+					<label for="seat_box_${temp_seat.seat_index}"></label>
+				</c:when>
+			
+				<c:otherwise>
+					<input type = "checkbox" id = "seat_reserved_${temp_seat.seat_index}" class = "seat_reserved" disabled>
+					<label for="seat_reserved_${temp_seat.seat_index}"></label>
+				</c:otherwise>
+			</c:choose>
+			${temp_seat.seat_index}
+				<c:if test="${temp_seat.seat_index % 10 eq 0}">
 					<br>
-			</c:if>
-		</c:forEach>
+				</c:if>			
+		</c:forEach>	
 
-	</form>
-	
-	
-	<%-- <c:forEach var = "temp_seat" items = "${select_seat}">
-	<table>
-		<tr>
-			<th>${temp_seat.seat_index}</th>
-			<th>${temp_seat.seat_name}</th>
-			<th>${temp_seat.seat_unique_num}</th>
-			<th>${temp_seat.reservation_check}</th>
-			<th>${temp_seat.sch_num}</th>
-		</tr>
-	</table>
-	</c:forEach> --%>	
+		<input type = "submit" name ="save"/>
+	</form>	
 
 </body>
 </html>

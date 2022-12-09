@@ -8,13 +8,20 @@ public class movie_dto {
    private String date;
    private int movie_num;
    private String time;
+   private int sch_num;
    
-      
-   public movie_dto(int theater2, String date2, String time2) {
+   public movie_dto(int sch_num,int theater,String date, String time) {
       super();
-      this.theater = theater2;
-      this.date = date2;
-      this.time = time2;
+      this.sch_num = sch_num;
+      this.theater = theater;
+      this.date = date;
+      this.time = time;
+   }
+   public int getSch_num() {
+      return sch_num;
+   }
+   public void setSch_num(int sch_num) {
+      this.sch_num = sch_num;
    }
 
    public int getTheater() {
@@ -43,7 +50,7 @@ public class movie_dto {
    }
    @Override
    public String toString() {
-      return "movie_dto [theater=" + theater + ", date=" + date + ", time=" + time + "]";
+      return "movie_dto [theater=" + theater + ", date=" + date + ", time=" + time + ", sch_num=" + sch_num + "]";
    }
-   
+
 }
