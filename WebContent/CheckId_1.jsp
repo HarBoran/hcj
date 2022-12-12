@@ -1,63 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import= "com.web.jdbc.*" %>
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>MovieTicket</title>
+<meta charset="EUC-KR">
+<title>Join_Member</title>
    <meta charset="utf-8">
-   <!-- ë¶€íŠ¸ìŠ¤íŠ¸ëž© -->
+   <!-- ºÎÆ®½ºÆ®·¦ -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-   <!-- ì œì´ì¿¼ë¦¬ -->   
+   <!-- Á¦ÀÌÄõ¸® -->   
    <script src="https://code.jquery.com/jquery-2.2.4.min.js" 
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
-
 </head>
-
-   <script></script>
-   
-
-<body>
-
+<body>   
 	<div class="text-center">
 		<a href="hcj_servlet?command=list">
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
 		</a>
 	</div>
 
-		 <table border = 1 >
-	  <tr>
-	              <th>sch_num</th>
-	               <th>theater</th>
-	               <th>date</th>
-	               <th>time</th>
-	               <th>reservation</th>
-	   </tr>
-	<c:forEach var = "List" items = "${scheduleList}">
-	 <tr>
-	 <c:url var ="seat_reservation" value="/hcj_servlet">
-	 <c:param name ="command" value="seatSelection"/>
-	 <c:param name = "sch_num" value = "${List.sch_num}"/>               
-	 </c:url>
-	<td>${List.sch_num}</td>
-	 
-	<td>${List.theater}</td>
-	
-	<td>${List.date}</td>
-	
-	<td>${List.time}</td>
-	
-	<td><a href ="${seat_reservation}">seat_reservation</a></td>
-	</tr>
-	</c:forEach>
-	
-	</table> 
+      
+      <form action = "hcj_servlet" method = "POST">
+              
+         id : <input type = "text" name = "id"  placeholder = "only English" > <br><br>
+         <input type="hidden" name="command" value="checkId" />
+       <input type = "submit" value = "checkId"><br><br>
+      
+      
+      </form>
 
 </body>
 </html>

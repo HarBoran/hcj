@@ -30,34 +30,14 @@
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
 		</a>
 	</div>
-
-		 <table border = 1 >
-	  <tr>
-	              <th>sch_num</th>
-	               <th>theater</th>
-	               <th>date</th>
-	               <th>time</th>
-	               <th>reservation</th>
-	   </tr>
-	<c:forEach var = "List" items = "${scheduleList}">
-	 <tr>
-	 <c:url var ="seat_reservation" value="/hcj_servlet">
-	 <c:param name ="command" value="seatSelection"/>
-	 <c:param name = "sch_num" value = "${List.sch_num}"/>               
-	 </c:url>
-	<td>${List.sch_num}</td>
-	 
-	<td>${List.theater}</td>
 	
-	<td>${List.date}</td>
+	<div>
+		<p>day ${reservationConfirm.sch_num}
+		seat_index = ${reservationConfirm.seat_index}
+		check_user = ${reservationConfirm.check_user}
+		nonuser_index = ${reservationConfirm.nonuser_index}
+		user_index = ${reservationConfirm.user_index}</p>
+	</div>
 	
-	<td>${List.time}</td>
-	
-	<td><a href ="${seat_reservation}">seat_reservation</a></td>
-	</tr>
-	</c:forEach>
-	
-	</table> 
-
-</body>
+	</body>
 </html>

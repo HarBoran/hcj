@@ -25,10 +25,23 @@
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
 		</a>
 	</div>
+	
+	<%String tempid = (String)session.getAttribute("id");%>
+	<%System.out.println("id=" + tempid); %>
+	<%=tempid %>
+	
+	<a href="Login.jsp" class="btn btn-primary">Login</a>
+	
+	<a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>
+	
+	<a href = "reservationCheck.jsp" class="btn btn-outline-warning">reservationCheck</a>
+		
 
-	<div class ="container">
-	<div class="row">
+<div class ="container">
+<div class="row">
+       
 
+      &nbsp;&nbsp;&nbsp;
        <a href="hcj_servlet?command=movieTime&moviename=Iron_Man">
           <img src = "image/Iron_Man.jpg" width="200px"/>
        </a>
@@ -44,10 +57,10 @@
        <a href="hcj_servlet?command=movieTime&moviename=Thor">
           <img src = "image/Thor.jpg" width="200px"/>
        </a>
-       </div> 
-      <br>
-      <!-- <a href="hcj_servlet?command=list" class="btn btn-info">Refresh</a> -->
+       </div>
 
+      
+   
 </div>
 </body>
 </html>

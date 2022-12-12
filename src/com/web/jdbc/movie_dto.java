@@ -17,6 +17,13 @@ public class movie_dto {
       this.date = date;
       this.time = time;
    }
+   public movie_dto(int theater,String date, String time) {
+	      super();
+	      this.theater = theater;
+	      this.date = date;
+	      this.time = time;
+	   }
+   
    public int getSch_num() {
       return sch_num;
    }

@@ -2,10 +2,9 @@
 <%@ page import= "com.web.jdbc.*" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>MovieTicket</title>
-   <meta charset="utf-8">
+<title>MovieList</title>
    <!-- 부트스트랩 -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -20,44 +19,30 @@
 
 </head>
 
-   <script></script>
-   
-
 <body>
-
 	<div class="text-center">
 		<a href="hcj_servlet?command=list">
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
 		</a>
 	</div>
+	<%String tempid = (String)session.getAttribute("id");%>
+	
+	<c:url var = "tempLink" value="/hcj_servlet">						
+		<c:param name = "command" value = "reservationticket"/>
+		<c:param name = "id" value = "tempid"/>
+	</c:url>
+	<a href = "${tempLink}" class="btn btn-outline-warning">reservationCheck</a>
 
-		 <table border = 1 >
-	  <tr>
-	              <th>sch_num</th>
-	               <th>theater</th>
-	               <th>date</th>
-	               <th>time</th>
-	               <th>reservation</th>
-	   </tr>
-	<c:forEach var = "List" items = "${scheduleList}">
-	 <tr>
-	 <c:url var ="seat_reservation" value="/hcj_servlet">
-	 <c:param name ="command" value="seatSelection"/>
-	 <c:param name = "sch_num" value = "${List.sch_num}"/>               
-	 </c:url>
-	<td>${List.sch_num}</td>
-	 
-	<td>${List.theater}</td>
+	${reservationTicketTemp}
+	{reservationTicketTemp.title}
+	{reservationTicketTemp.date}
+	${reservationTicketTemp.running_time}
+	{reservationTicketTemp.theater}
+	{reservationTicketTemp.seat_index}
 	
-	<td>${List.date}</td>
 	
-	<td>${List.time}</td>
 	
-	<td><a href ="${seat_reservation}">seat_reservation</a></td>
-	</tr>
-	</c:forEach>
 	
-	</table> 
-
+	
 </body>
 </html>
