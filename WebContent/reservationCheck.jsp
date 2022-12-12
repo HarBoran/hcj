@@ -33,14 +33,16 @@
 	</c:url>
 	<a href = "${tempLink}" class="btn btn-outline-warning">reservationCheck</a>
 
-	${reservationTicketTemp}
-	{reservationTicketTemp.title}
-	{reservationTicketTemp.date}
-	${reservationTicketTemp.running_time}
-	{reservationTicketTemp.theater}
-	{reservationTicketTemp.seat_index}
+
+	<c:forEach var= "tempTicket" items = "${reservationTicketTemp}">
+		<br>
+		${tempTicket.title}
+		${tempTicket.date}
+		${tempTicket.running_time}
+		${tempTicket.theater}
+		${tempTicket.seat_index}
 	
-	
+	</c:forEach> 
 	
 	
 	
