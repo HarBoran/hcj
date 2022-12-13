@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>세션 로그인</title>
-   <!-- 부트스트랩 -->
+  <!-- 부트스트랩 -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -16,17 +16,18 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
-    
 </head>
 <body>
-	<div class="text-center">
-		<a href="hcj_servlet?command=list">
-			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
-		</a>
-	</div>
+<div>
+   <div class="text-center">
+      <a href="hcj_servlet?command=list">
+         <img src ="image/movie.png" width="80px"><h2>HCJ</h2>
+      </a>
+   </div>
 
-<form action="hcj_servlet" method="post">
-<input type="hidden" name="command" value="Login" />
+<form action="hcj_servlet" method="POST">
+<input type = "hidden" name ="command" value= "Login"/>
+<!--로그인 시 서블릿단으로 아이디와 패스워드를 파라미터 값으로 보냄  -->
    <table>
       <tr>
          <td>id</td>
@@ -44,4 +45,26 @@
       </tr>
    </table>
 </form>
+</div><br><br>
+<div>
+<form action = "hcj_servlet" method= "POST">
+<input type="hidden" name="command" value="nonUser" />
+   
+       name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
+       
+       birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
+       
+       phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
+
+
+
+      <input type="submit" value="비회원로그인">
+
+</form>
+
+</div>
+
+
+
+
 </body>

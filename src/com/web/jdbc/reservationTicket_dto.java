@@ -1,21 +1,33 @@
 package com.web.jdbc;
 
 public class reservationTicket_dto {
+	private int index;
 	private String title;
 	private String date;
+	private String time;
 	private String running_time;
 	private int theater;
-	private int seat_index;
-	 	 
-	public reservationTicket_dto(String title, String date, String running_time, int theater, int seat_index) {
+	private String seat_name;
+		
+
+	public reservationTicket_dto(int index, String title, String date, String time, String running_time, int theater,
+			String seat_name) {
 		super();
+		this.index = index;
 		this.title = title;
 		this.date = date;
+		this.time = time;
 		this.running_time = running_time;
 		this.theater = theater;
-		this.seat_index = seat_index;
+		this.seat_name = seat_name;
 	}
-	 
+	
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -27,6 +39,12 @@ public class reservationTicket_dto {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 	public String getRunning_time() {
 		return running_time;
@@ -40,11 +58,11 @@ public class reservationTicket_dto {
 	public void setTheater(int theater) {
 		this.theater = theater;
 	}
-	public int getSeat_index() {
-		return seat_index;
+	public String getSeat_name() {
+		return seat_name;
 	}
-	public void setSeat_index(int seat_index) {
-		this.seat_index = seat_index;
+	public void setSeat_name(String seat_name) {
+		this.seat_name = seat_name;
 	}
-
+	
 }

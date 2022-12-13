@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,48 @@ private DataSource dataSource;
 	public hcj_model(DataSource theDataSource){
 		dataSource = theDataSource;
 	}
+	
+		public boolean Login (String id , String password) throws SQLException, ServletException, IOException {
+        Connection conn;
+        Statement mySt;
+        ResultSet myRs;
+		
+		
+		  conn = dataSource.getConnection();
+		  mySt = conn.createStatement();
+		  myRs = mySt.executeQuery("select id , password from user");
+		  
+		  HashMap<String,String> IDPWD = new HashMap<>();
+		  
+		  while(myRs.next()) {
+		     String id_ = myRs.getString("id"); 
+		     String pwd_ = myRs.getString("password");
+		     IDPWD.put(id_, pwd_);
+		  }
+		  boolean a = (IDPWD.containsKey(id) && IDPWD.get(id).equals(password));   
+		  return a;
+
+			// 리턴 값으로 true 나 false를 반환 . 서블릿 단에서 호출 할 예정
+			// end loginCheck()
+	}
+
+
+		public void cancel(int index) throws Exception{
+			Connection conn = null;
+			PreparedStatement pst = null;
+			
+			try {
+				conn = dataSource.getConnection();
+				String sql = "Delete from reservation where reservation.index = ?";
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, index);
+				pst.execute();
+				
+			}finally {
+				close(conn, pst, null);
+			}
+			
+		}
 	
 	public int sessionidChangeUserTable(String id) throws Exception{
 		Connection conn = null;
@@ -37,10 +80,7 @@ private DataSource dataSource;
 			int user_index = myRs.getInt("user_index");
 			return user_index;
 	
-//		}catch(Exception e){
-//			System.out.println("Couldn't close connection: " + e.getMessage());
-//			e.printStackTrace();
-						
+			
 		}finally {
 			close(conn, pst, myRs);
 		}
@@ -55,9 +95,10 @@ private DataSource dataSource;
 				
 		try{
 			conn = dataSource.getConnection();
-			String sql = "SELECT title, date, running_time, theater, seat_index"
-					+ " FROM reservation LEFT JOIN schedule on reservation.sch_num = schedule.sch_num" 
-					+ " LEFT JOIN movie on movie.movie_num = schedule.movie_num WHERE USER_index = ?";
+			String sql = "SELECT reservation.index, title, date,time, running_time, theater, seat_name"
+					+" FROM reservation LEFT JOIN schedule on reservation.sch_num = schedule.sch_num"
+					+" LEFT JOIN movie on movie.movie_num = schedule.movie_num" 
+					+" LEFT JOIN seat on reservation.seat_index = seat.seat_index WHERE user_index = ?";
 			mySt= conn.prepareStatement(sql);
 			mySt.setInt(1, id);
 			myRs = mySt.executeQuery();
@@ -66,11 +107,13 @@ private DataSource dataSource;
 				
 
 				reservationTicket_dto reservationTicket = new reservationTicket_dto(
+						myRs.getInt("index"),
 						myRs.getString("title"), 
 						myRs.getString("date"), 
+						myRs.getString("time"), 
 						myRs.getString("running_time"), 
 						myRs.getInt("theater"), 
-						myRs.getInt("seat_index"));
+						myRs.getString("seat_name"));
 
 				reservationTickets.add(reservationTicket);
 				
@@ -164,24 +207,27 @@ private DataSource dataSource;
 	      		      
 	   }
 	
-	public void joinMember(String id , String name , String birth , String phone_num) {
-	      
-      Connection conn;
-      PreparedStatement mySt ;
-      
-      try {
-         conn= dataSource.getConnection();
-         mySt =conn.prepareStatement("insert into user(id,name,birth,phone_num) values\r\n"
-               + "(?,?,?,?);");   
-         mySt.setString(1, id);
-         mySt.setString(2, name);
-         mySt.setString(3, birth);
-         mySt.setString(4, phone_num);
-         
-         mySt.execute();
-      }catch(Exception e) {
-         
-      }
+	   public void joinMember(String id , String name , String birth , String phone_num , String password) {
+	         
+		      Connection conn;
+		      PreparedStatement mySt ;
+		      
+		      try {
+		         conn= dataSource.getConnection();
+		         mySt =conn.prepareStatement("insert into user(id,name,birth,phone_num,password) values\r\n"
+		               + "(?,?,?,?,?);");   
+		         mySt.setString(1, id);
+		         mySt.setString(2, name);
+		         mySt.setString(3, birth);
+		         mySt.setString(4, phone_num);
+		         mySt.setString(5, password);
+		         
+		         mySt.execute();
+		      }catch(Exception e) {
+		         
+		      }
+		         
+		   
 	      
 	}
 	
@@ -250,6 +296,8 @@ private DataSource dataSource;
 			e.printStackTrace();
 		}
 	}
+
+	
 
 	
 

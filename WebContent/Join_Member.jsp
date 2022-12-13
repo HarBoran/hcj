@@ -37,6 +37,9 @@
       <input type ="hidden" name="id_check" value =  "${id_}"/>
 
        id : <%=request.getAttribute("id_")%>, ${id_} <br><br>
+       
+       password : <input type = "password" name = "password" placeholder = "only Number"><br><br>
+       
        name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
        
        birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>

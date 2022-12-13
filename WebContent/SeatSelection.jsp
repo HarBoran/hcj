@@ -62,10 +62,14 @@
 	</div>
 	
 	<h3>Seat Choice</h3>
+	<%String sessionid = (String)session.getAttribute("id"); %>
 
 	<form action = "hcj_servlet" method="GET" class="was-validated">
 		<input type="hidden" name="command" value="reservation" />
 		<input type="hidden" name="sch_num" value="${sch_num}"/>
+		
+      <input type="hidden" name ="sessionId" value ="<%=sessionid%>"/>
+		
 
 		<c:forEach var = "temp_seat" items = "${select_seat}">
 			

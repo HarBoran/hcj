@@ -27,15 +27,18 @@
 	</div>
 	
 	<%String tempid = (String)session.getAttribute("id");%>
-	<%System.out.println("id=" + tempid); %>
-	<%=tempid %>
-	
-	<a href="Login.jsp" class="btn btn-primary">Login</a>
-	
-	<a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>
-	
-	<a href = "reservationCheck.jsp" class="btn btn-outline-warning">reservationCheck</a>
-		
+	session = <%=tempid%>
+   
+   <div style = "text-align: right;">      
+   <c:if test="${id == null}">
+	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
+	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
+	</c:if>   
+	<c:if test="${id != null}"> 
+		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
+		<a href = "reservationCheck.jsp" class="btn btn-warning">reservationCheck</a>
+	</c:if>
+   </div>
 
 <div class ="container">
 <div class="row">
