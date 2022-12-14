@@ -66,32 +66,47 @@
 
 	<form action = "hcj_servlet" method="GET" class="was-validated">
 		<input type="hidden" name="command" value="reservation" />
-		<input type="hidden" name="sch_num" value="${sch_num}"/>
+		<input type="hidden" name="sch_num" value="${sch_num}"/>		
+		<input type="hidden" name ="sessionId" value ="<%=sessionid%>"/>
 		
-      <input type="hidden" name ="sessionId" value ="<%=sessionid%>"/>
+		<table border = "2">
 		
-
-		<c:forEach var = "temp_seat" items = "${select_seat}">
-			
-			<c:choose>
-				<c:when test="${temp_seat.sch_num eq 0}">
-					<input type = "checkbox" id = "seat_box_${temp_seat.seat_index}" class = "seat_box" name = "seat_to_reserve" value = "${temp_seat.seat_index}">
-					<label for="seat_box_${temp_seat.seat_index}"></label>
-				</c:when>
-			
-				<c:otherwise>
-					<input type = "checkbox" id = "seat_reserved_${temp_seat.seat_index}" class = "seat_reserved" disabled>
-					<label for="seat_reserved_${temp_seat.seat_index}"></label>
-				</c:otherwise>
-			</c:choose>
-			${temp_seat.seat_index}
+		    <tr><th>\</th>
+			<%char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J'};%>
+			<%request.setAttribute("alphabet", alphabet);%>
+				<c:forEach var = "i" begin = "1" end = "10">
+					<th scope="col">${i}</th>
+				</c:forEach>
+		    </tr>
+				<c:forEach var = "temp_seat" items = "${select_seat}" varStatus ="loop" >	
+				<c:set var = "Vertical" value = "${(loop.count-1)/10}"/>
+				
+		   		<c:if test="${temp_seat.seat_index % 10 eq 1}">
+					<tr> <td>${alphabet[Vertical]}</td>
+				</c:if>
+		   
+				<c:choose>
+					<c:when test="${temp_seat.sch_num eq 0}">
+						<td><input type = "checkbox" id = "seat_box_${temp_seat.seat_index}" class = "seat_box" name = "seat_to_reserve" value = "${temp_seat.seat_index}">
+						${temp_seat.seat_name}
+						<label for="seat_box_${temp_seat.seat_index}"></label></td>
+					</c:when>
+				
+					<c:otherwise>
+						<td><input type = "checkbox" id = "seat_reserved_${temp_seat.seat_index}" class = "seat_reserved" disabled>
+						${temp_seat.seat_name}
+						<label for="seat_reserved_${temp_seat.seat_index}"></label></td>
+					</c:otherwise>
+				</c:choose>
+				
 				<c:if test="${temp_seat.seat_index % 10 eq 0}">
-					<br>
-				</c:if>			
+					</tr>
+				</c:if>
+				
 		</c:forEach>	
-
+		</table>	
 		<input type = "submit" value ="reservation"/>
-	</form>	
+	</form>
 
 </body>
 </html>

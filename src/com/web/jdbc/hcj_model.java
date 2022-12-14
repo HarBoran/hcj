@@ -250,7 +250,6 @@ private DataSource dataSource;
 	   }
 	
 	public List<reservation_dto> loadSeat(int sch_num) throws Exception{
-         //public reservation_dto(int sch_num, int seat_index) {
          List<reservation_dto> seats = new ArrayList<reservation_dto>();
          Connection conn = null;
          //PreparedStatement mySt= null;
@@ -259,20 +258,19 @@ private DataSource dataSource;
          
          try{
             conn = dataSource.getConnection();
-            String sql = "SELECT sch_num, seat.seat_index FROM seat"
+            String sql = "SELECT sch_num, seat.seat_index, seat_name FROM seat"
             +" LEFT JOIN reservation on reservation.seat_index =seat.seat_index and sch_num = " +  sch_num
             +" WHERE theater_num = (SELECT schedule.theater FROM schedule WHERE sch_num = " +  sch_num + ")";
             
             //mySt= conn.prepareStatement(sql);
-            //pst.setInt(1, sch_num);
-            //pst.setInt(2, sch_num);   
+            //pst.setInt(1, sch_num); 
             //myRs = pst.executeQuery();   
             mySt= conn.createStatement();
             myRs = mySt.executeQuery(sql);
             
             while(myRs.next()) {
 
-               reservation_dto seat = new reservation_dto(myRs.getInt("sch_num"),myRs.getInt("seat_index"));
+               reservation_dto seat = new reservation_dto(myRs.getInt("sch_num"),myRs.getInt("seat_index"), myRs.getString("seat_name"));
                seats.add(seat);
             }
             return seats;

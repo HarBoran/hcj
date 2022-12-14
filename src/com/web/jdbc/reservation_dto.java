@@ -5,10 +5,18 @@ public class reservation_dto {
 	private int index;
 	private int sch_num;
 	private int seat_index;
+	private String seat_name;
 	private int check_user;
 	private int nonuser_index;
 	private int user_index;		
-	
+		
+	public reservation_dto(int sch_num, int seat_index, String seat_name) {
+		super();
+		this.sch_num = sch_num;
+		this.seat_index = seat_index;
+		this.seat_name = seat_name;
+	}
+
 
 	public reservation_dto(int sch_num, int seat_index, int check_user, int nonuser_index, int user_index) {
 		super();
@@ -19,12 +27,6 @@ public class reservation_dto {
 		this.user_index = user_index;
 	}
 
-	public reservation_dto(int sch_num, int seat_index) {
-		super();
-		this.sch_num = sch_num;
-		this.seat_index = seat_index;
-	}
-	
 	public int getIndex() {
 		return index;
 	}
@@ -42,6 +44,12 @@ public class reservation_dto {
 	}
 	public void setSeat_index(int seat_index) {
 		this.seat_index = seat_index;
+	}	
+	public String getSeat_name() {
+		return seat_name;
+	}
+	public void setSeat_name(String seat_name) {
+		this.seat_name = seat_name;
 	}
 	public int getCheck_user() {
 		return check_user;

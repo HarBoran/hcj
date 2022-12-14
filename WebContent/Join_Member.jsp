@@ -19,6 +19,27 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    
+     <script>
+	    $(document).ready(function(){
+			$("#checkid").click(function(){
+
+				alert($("#id2").val());
+				
+			/* 	if(confirm("dddd")){	
+					
+	            }else{
+	                return false; */
+	            //}
+			});
+		});
+		
+	
+	</script>
+	
+	
+
+	
 </head>
 <body>  
 	<div class="text-center">
@@ -34,10 +55,15 @@
       <form action = "hcj_servlet" method = "POST">
       <input type="hidden" name="command" value="JOIN" />
       <%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
-      <input type ="hidden" name="id_check" value =  "${id_}"/>
+      <input type ="hidden" name="id_check" value = "${id_}"/>
 
-       id : <%=request.getAttribute("id_")%>, ${id_} <br><br>
+      <%--  id : ${id_} <br><br> --%>
        
+       
+         id : <input type = "text" name = "id2" id = "id2" placeholder = "only English" >
+
+		<input type = "button" id = "checkid" value = "checkLink" class="btn btn-outline-warning"><br><br>
+	
        password : <input type = "password" name = "password" placeholder = "only Number"><br><br>
        
        name : <input type = "text" name = "name" placeholder = "only English" ><br><br>

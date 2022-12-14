@@ -41,7 +41,7 @@ public class hcj_servlet extends HttpServlet {
 		// TODO Auto-generated method stub	
 		try {	
 			String checkPage = request.getParameter("command");
-		
+	
 			if (checkPage == null) {
 				checkPage = "list";
 			}
@@ -81,7 +81,7 @@ public class hcj_servlet extends HttpServlet {
 	   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        
 	         String CheckPage = request.getParameter("command");
-	         
+
 	         switch(CheckPage){
 	            case "checkId":
 	         try {
@@ -131,9 +131,7 @@ public class hcj_servlet extends HttpServlet {
 		      String name = request.getParameter("name");
 		      String birth = request.getParameter("birth");
 		      String phone_num = request.getParameter("phone_num");
-		      
-		      
-		   
+
 		}
    
 	   @SuppressWarnings("unused")
@@ -161,16 +159,17 @@ public class hcj_servlet extends HttpServlet {
    
    public void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	      String id = request.getParameter("id");
+	      
 	      if (hcj_model.checkId(id)==true) {
 	         RequestDispatcher dispatcher = request.getRequestDispatcher("/CheckId_2.jsp");     
 	         dispatcher.forward(request, response);
+	         
 	      }else if(hcj_model.checkId(id)==false){
 	            request.setAttribute("id_", id);   
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/Join_Member.jsp");     
 	            dispatcher.forward(request, response);
 	      }
-	      
-	  
+	     
 	}
 
 
@@ -192,14 +191,15 @@ public class hcj_servlet extends HttpServlet {
        boolean d;
          
        do{
-          d = Pattern.matches(reg, name);
-        
-          b = Pattern.matches(regPhoneNumber, phone_num);
-          c = Pattern.matches(regBirthdate, birth);
-          if ( b==false || c ==false ||d == false) {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/validity_check.jsp");     
-                dispatcher.forward(request, response);
-          }
+
+	          b = Pattern.matches(regPhoneNumber, phone_num);
+	          c = Pattern.matches(regBirthdate, birth);
+	          d = Pattern.matches(reg, name);
+         
+	          if ( b==false || c ==false ||d == false) {
+	                RequestDispatcher dispatcher = request.getRequestDispatcher("/validity_check.jsp");     
+	                dispatcher.forward(request, response);
+	          }
          }while(!b && !c && !d);
                 
          hcj_model.joinMember(id,name,birth,phone_num,password);
@@ -239,42 +239,39 @@ public class hcj_servlet extends HttpServlet {
 	
    private void reservation(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		 //새션에서 (Stirng)id 값 받기
-
 	   	HttpSession session = request.getSession();
+	   	String id = (String)session.getAttribute("id"); 
 
-	String id = (String)session.getAttribute("id"); 
-
-		   //id 값  (int)index로 변경 
-	
-
-	      //if (id.equals("null")) {
-		//if(id== null || id.length() == 0) {
 		if(id == null) {
 	    	//response.sendRedirect(request.getContextPath()+"/User_nonUser.jsp");
 	         RequestDispatcher dispatcher = request.getRequestDispatcher("/User_nonUser.jsp");
 	         dispatcher.forward(request, response);//만약 받아온 세션아이디가 null이면 User_nonUser page로가서 로그인이나 비회원 로그인을 하도록 유도
 	    
-	      }else if(!id.equals("null")) {
+		}else if(!id.equals("null")) {
+	    	//id 값  (int)index로 변경 
 	    	  int user_id = hcj_model.sessionidChangeUserTable(id);
 	         // 세션 아이디가 null이 아닐 경우에 reservation 메서드 내용이 실행됨
 	         int sch_num = Integer.parseInt(request.getParameter("sch_num"));
-	         int seat_index = Integer.parseInt(request.getParameter("seat_to_reserve"));
-	   
+	        
+	         // int seat_index = Integer.parseInt(request.getParameter("seat_to_reserve"));
+	         String[] seat_index = request.getParameterValues("seat_to_reserve");
+
 	         int check_user = 1;
 	         int nonuser_index = 0;
 	         int user_index = user_id;
+	         
+		     for (int i = 0; i <seat_index.length; i++) {
+		         reservation_dto reservation = new reservation_dto(sch_num, Integer.parseInt(seat_index[i]), check_user, nonuser_index, user_index);
+		         request.setAttribute("reservationConfirm", reservation);
+	
 		      
-	         reservation_dto reservation = new reservation_dto(sch_num, seat_index, check_user, nonuser_index, user_index);
-	         request.setAttribute("reservationConfirm", reservation);
-
-	      
-	         if(check_user == 0) {
-	            hcj_model.nonuser_reservation(reservation);
-	         }else if(check_user == 1) {         
-	            hcj_model.user_reservation(reservation);
-	         }      
-	      
-	   
+		         if(check_user == 0) {
+		            hcj_model.nonuser_reservation(reservation);
+		         }else if(check_user == 1) {         
+		            hcj_model.user_reservation(reservation);
+		         }      
+		     }   
+		   
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationConfirm.jsp");
 	            dispatcher.forward(request, response);
 	      } 
