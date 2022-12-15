@@ -66,9 +66,6 @@ public class hcj_servlet extends HttpServlet {
 				case "delete" :
 					delete(request, response);
 					break;
-				case "checkId":
-					checkId(request,response);
-					break;
 				default:
 					listMovies(request, response);
 			}

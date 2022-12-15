@@ -22,25 +22,14 @@
     
      <script>
 	    $(document).ready(function(){
-			$("#checkid").click(function(){		
-		
+			$("#checkid").click(function(){			
 				var ii = $("#id_input").val();
-				if(ii == null || ii == ""){
-					alert("is empty");
-					$("#id_input").focus();
-				}else{
-					alert("Failed to enter ID");
-				}
-				
-				$('#dupid').click(function(){
-			        $.ajax('idCheckForm2.jsp',{
-			            data:{id:$('.id').val()},
-			            success:function(returndata){
-			                $('#divid').html(returndata);
-			                }
-			        
-			            });
-			    });
+					if(ii == null || ii == ""){
+						alert("is empty");					
+					}else{
+						alert("Failed to enter ID");
+					}
+				$("#id_input").focus();
 			});
 		});
 	</script>	

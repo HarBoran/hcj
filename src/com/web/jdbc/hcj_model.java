@@ -6,7 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -243,16 +247,22 @@ private DataSource dataSource;
 		}		
 	}
 	
+
+	
 	public void user_reservation(reservation_dto reservation) throws Exception{
 		Connection conn = null;
 		PreparedStatement pst = null;
-				
+
+		LocalTime now = LocalTime.now();
+		Date date = java.sql.Time.valueOf(now);
+	    int str = Long.valueOf(date.getTime()).intValue();	
+	    
 		try {
 			conn = dataSource.getConnection();
 						
 			String sql = "INSERT INTO reservation"
-			+" (sch_num, seat_index, check_user, user_index)"
-			+" values(?, ?, ?, ?)";
+			+" (sch_num, seat_index, check_user, user_index, multiple_seats)"
+			+" values(?, ?, ?, ?, ?)";
 			
 			pst = conn.prepareStatement(sql);
 
@@ -260,7 +270,7 @@ private DataSource dataSource;
 			pst.setInt(2, reservation.getSeat_index());
 			pst.setInt(3, reservation.getCheck_user());
 			pst.setInt(4, reservation.getUser_index());
-			
+			pst.setInt(5, str);
 
 			pst.executeUpdate();
 
