@@ -3,6 +3,7 @@ package com.web.jdbc;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -62,6 +63,12 @@ public class hcj_servlet extends HttpServlet {
 				case "cancel" :
 					cancel(request, response);
 					break;
+				case "delete" :
+					delete(request, response);
+					break;
+				case "checkId":
+					checkId(request,response);
+					break;
 				default:
 					listMovies(request, response);
 			}
@@ -84,45 +91,44 @@ public class hcj_servlet extends HttpServlet {
 
 	         switch(CheckPage){
 	            case "checkId":
-	         try {
-	            checkId(request,response);
-	         } catch (ServletException e1) {
-	            // TODO Auto-generated catch block
-	            e1.printStackTrace();
-	         } catch (IOException e1) {
-	            // TODO Auto-generated catch block
-	            e1.printStackTrace();
-	         } catch (SQLException e1) {
-	            // TODO Auto-generated catch block
-	            e1.printStackTrace();
-	         }
-	               break;
+			         try {
+			            checkId(request,response);
+			         } catch (ServletException e1) {
+			            // TODO Auto-generated catch block
+			            e1.printStackTrace();
+			         } catch (IOException e1) {
+			            // TODO Auto-generated catch block
+			            e1.printStackTrace();
+			         } catch (SQLException e1) {
+			            // TODO Auto-generated catch block
+			            e1.printStackTrace();
+			         }
+			         break;
 	            case "JOIN" :
 	           
-	         try {
-	            joinMember(request,response);
-	         } catch (ServletException | IOException | SQLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	         }
-	            break;
+			         try {
+			            joinMember(request,response);
+			         } catch (ServletException | IOException | SQLException e) {
+			            // TODO Auto-generated catch block
+			            e.printStackTrace();
+			         }
+			         break;
 	            case "nonUser" :
-	         try {
-	            nonUser(request,response);
-	         } catch (ServletException | IOException | SQLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	         }
-	         break;
+			         try {
+			            nonUser(request,response);
+			         } catch (ServletException | IOException | SQLException e) {
+			            // TODO Auto-generated catch block
+			            e.printStackTrace();
+			         }
+			         break;
 	            case "Login":
-	         try {
-	            Login(request,response);
-	         } catch (ServletException | IOException | SQLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	         }
-	               break;
-	               
+			         try {
+			            Login(request,response);
+			         } catch (ServletException | IOException | SQLException e) {
+			            // TODO Auto-generated catch block
+			            e.printStackTrace();
+			         }
+			         break;			               
 	         }
 	      }
 
@@ -159,7 +165,9 @@ public class hcj_servlet extends HttpServlet {
    
    public void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	      String id = request.getParameter("id");
-	      
+	      System.out.println(id);
+	      request.setAttribute("check_id", hcj_model.checkId(id));
+	      /*
 	      if (hcj_model.checkId(id)==true) {
 	         RequestDispatcher dispatcher = request.getRequestDispatcher("/CheckId_2.jsp");     
 	         dispatcher.forward(request, response);
@@ -169,12 +177,11 @@ public class hcj_servlet extends HttpServlet {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/Join_Member.jsp");     
 	            dispatcher.forward(request, response);
 	      }
-	     
+	     */
 	}
 
 
    public void joinMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-
        
        String reg = "^[a-zA-Z]*$";
        String regBirthdate = "^([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$";
@@ -213,30 +220,39 @@ public class hcj_servlet extends HttpServlet {
    private void cancel(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		int index = Integer.parseInt(request.getParameter("tempindex"));
 		hcj_model.cancel(index);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationCheck.jsp");	  
+		RequestDispatcher dispatcher = request.getRequestDispatcher("hcj_servlet?command=reservationticket");	  
 		dispatcher.forward(request, response);
-		}
+	}
+   
+  private void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		int index = Integer.parseInt(request.getParameter("tempindex"));
+		hcj_model.delete(index);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("hcj_servlet?command=reservationticket");	  
+		dispatcher.forward(request, response);
+	}
    
    
    private void reservationTicket(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	   //새션에서 (Stirng)id 값 받기
 	   HttpSession session = request.getSession();
 	   String id = (String)session.getAttribute("id"); 
+
 	   //id 값  (int)index로 변경 
 	   int user_id = hcj_model.sessionidChangeUserTable(id);
 
 
-	  List<reservationTicket_dto> reservationTicket = hcj_model.reservationTicket(user_id);
+	  List<reservationTicket_dto> reservationTicket = hcj_model.reservationTicketLookUp(user_id);
 	  request.setAttribute("reservationTicketTemp", reservationTicket);
-
-	  RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationCheck.jsp");
-	  dispatcher.forward(request, response);
+	  
+	  List<reservationTicket_dto> canceledTicket = hcj_model.canceledTicketLookUp(user_id);	  
+	  request.setAttribute("canceledTicketTemp", canceledTicket);
 	  
 
-   }	
-	 
+	  RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationCheck.jsp");	  
+	  dispatcher.forward(request, response);	  
 
-	
+   }	
+   
    private void reservation(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		 //새션에서 (Stirng)id 값 받기
 	   	HttpSession session = request.getSession();
@@ -279,41 +295,34 @@ public class hcj_servlet extends HttpServlet {
 
 
 	public void listMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieList.jsp");	  
-		dispatcher.forward(request, response);
-	}
-	
+
+	    try {
+	        List<MovieList_dto> Movies = hcj_model.getMovieList();
+	        request.setAttribute("movie_list", Movies);
+	     }catch(Exception e) {
+	        e.printStackTrace();
+	     }
+	   
+	      RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieList.jsp");     
+	      dispatcher.forward(request, response);
+	   }
+   
+   
 	
 
 	
    public void movieTime(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	      
-	      String moviename = request.getParameter("moviename");
-	      int moviename1 = 0;
-	      switch(moviename) {
-	            case "Iron_Man" :
-	               moviename1 = 1;
-	               break;
-	            case "Spider_Man":
-	               moviename1 = 2;
-	               break;
-	            case "Thor" :
-	               moviename1 = 3;
-	               break;
-	            case "Captain_America" :
-	               moviename1 = 4;
-	               break;   
-	      }
-	      
-	      List<movie_dto> movieschedule = hcj_model.MovieTime(moviename1);
+	      String movietitle = request.getParameter("moviename");
+	      int movie_num = hcj_model.titleChangeMoiveNum(movietitle);
+
+	      List<movie_dto> movieschedule = hcj_model.MovieTime(movie_num);
 	      request.setAttribute("scheduleList", movieschedule);
 	      
 	       RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieTime.jsp");
 	         dispatcher.forward(request, response);
-	     
-	      
-	   }
-		   
+	     	      
+	   }		   
 	
 	
 	private void seatSelection(HttpServletRequest request, HttpServletResponse response) throws Exception{

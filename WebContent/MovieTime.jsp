@@ -42,8 +42,8 @@
 	<c:forEach var = "List" items = "${scheduleList}">
 	 <tr>
 	 <c:url var ="seat_reservation" value="/hcj_servlet">
-	 <c:param name ="command" value="seatSelection"/>
-	 <c:param name = "sch_num" value = "${List.sch_num}"/>               
+		 <c:param name ="command" value="seatSelection"/>
+		 <c:param name = "sch_num" value = "${List.sch_num}"/>               
 	 </c:url>
 	<td>${List.sch_num}</td>
 	 

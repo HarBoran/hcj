@@ -46,22 +46,41 @@ private DataSource dataSource;
 	}
 
 
-		public void cancel(int index) throws Exception{
-			Connection conn = null;
-			PreparedStatement pst = null;
+	public void cancel(int index) throws Exception{
+		Connection conn = null;
+		PreparedStatement pst = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			String sql = "UPDATE reservation SET cancellations = \"cancel\" "
+					+ "where reservation.index = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, index);
+			pst.execute();
 			
-			try {
-				conn = dataSource.getConnection();
-				String sql = "Delete from reservation where reservation.index = ?";
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1, index);
-				pst.execute();
-				
-			}finally {
-				close(conn, pst, null);
-			}
-			
+		}finally {
+			close(conn, pst, null);
 		}
+		
+	}
+		
+		
+	public void delete(int index) throws Exception{
+		Connection conn = null;
+		PreparedStatement pst = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			String sql = "Delete from reservation where reservation.index = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, index);
+			pst.execute();
+			
+		}finally {
+			close(conn, pst, null);
+		}
+		
+	}
 	
 	public int sessionidChangeUserTable(String id) throws Exception{
 		Connection conn = null;
@@ -86,7 +105,40 @@ private DataSource dataSource;
 		}
 	}
 	
-	public List<reservationTicket_dto> reservationTicket (int id) throws Exception{
+	   public List<MovieList_dto> getMovieList() throws Exception{
+		      List<MovieList_dto> Movies = new ArrayList<>();
+		      Connection conn = null;
+		      Statement mySt = null;
+		      ResultSet myRs = null;
+		      
+		      try {
+		         conn = dataSource.getConnection();
+		         String sql = "select * from movie";
+		         mySt = conn.createStatement();
+		         myRs = mySt.executeQuery(sql);
+		         
+		         while(myRs.next()) {
+		            int movie_num = myRs.getInt("movie_num");
+		            String title = myRs.getString("title");
+		            String genre = myRs.getString("genre");
+		            int age_limit = myRs.getInt("age_limit");
+		            String running_time = myRs.getString("running_time");
+		            String poster = myRs.getString("poster");
+		            MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster);
+		            Movies.add(tempMovie);
+		         }
+		         return Movies;
+		         
+		      }
+		      finally {
+		         myRs.close();
+		         mySt.close();
+		         conn.close();
+		      }
+		      
+		   }
+	
+	public List<reservationTicket_dto> reservationTicketLookUp (int id) throws Exception{
 
 		List<reservationTicket_dto> reservationTickets = new ArrayList<reservationTicket_dto>();
 		Connection conn = null;
@@ -98,7 +150,7 @@ private DataSource dataSource;
 			String sql = "SELECT reservation.index, title, date,time, running_time, theater, seat_name"
 					+" FROM reservation LEFT JOIN schedule on reservation.sch_num = schedule.sch_num"
 					+" LEFT JOIN movie on movie.movie_num = schedule.movie_num" 
-					+" LEFT JOIN seat on reservation.seat_index = seat.seat_index WHERE user_index = ?";
+					+" LEFT JOIN seat on reservation.seat_index = seat.seat_index WHERE cancellations IS NULL AND user_index = ?";
 			mySt= conn.prepareStatement(sql);
 			mySt.setInt(1, id);
 			myRs = mySt.executeQuery();
@@ -119,6 +171,45 @@ private DataSource dataSource;
 				
 				}
 				return reservationTickets;
+	
+		}finally{
+			close(conn, mySt, myRs);
+		}	
+	}		
+	
+	public List<reservationTicket_dto> canceledTicketLookUp (int id) throws Exception{
+
+		List<reservationTicket_dto> canceledTickets = new ArrayList<reservationTicket_dto>();
+		Connection conn = null;
+		PreparedStatement mySt = null;
+		ResultSet myRs = null;
+				
+		try{
+			conn = dataSource.getConnection();
+			String sql = "SELECT reservation.index, title, date,time, running_time, theater, seat_name"
+					+" FROM reservation LEFT JOIN schedule on reservation.sch_num = schedule.sch_num"
+					+" LEFT JOIN movie on movie.movie_num = schedule.movie_num" 
+					+" LEFT JOIN seat on reservation.seat_index = seat.seat_index WHERE cancellations = \"cancel\" AND user_index = ?";
+			mySt= conn.prepareStatement(sql);
+			mySt.setInt(1, id);
+			myRs = mySt.executeQuery();
+
+			while(myRs.next()) {
+				
+
+				reservationTicket_dto canceledTicket = new reservationTicket_dto(
+						myRs.getInt("index"),
+						myRs.getString("title"), 
+						myRs.getString("date"), 
+						myRs.getString("time"), 
+						myRs.getString("running_time"), 
+						myRs.getInt("theater"), 
+						myRs.getString("seat_name"));
+
+				canceledTickets.add(canceledTicket);
+				
+				}
+				return canceledTickets;
 	
 		}finally{
 			close(conn, mySt, myRs);
@@ -280,6 +371,30 @@ private DataSource dataSource;
          }
       }
 	
+	public int titleChangeMoiveNum(String moviename) throws Exception{
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet myRs = null;			
+
+		try{
+			conn = dataSource.getConnection();
+			String sql = "SELECT * FROM movie WHERE title = ?";
+
+			pst= conn.prepareStatement(sql);
+			pst.setString(1, moviename);
+			myRs = pst.executeQuery();
+			myRs.next();
+			
+			int movie_num = myRs.getInt("movie_num");
+			return movie_num;
+	
+			
+		}finally {
+			close(conn, pst, myRs);
+		}
+	}
+	
+	
 	protected void close(Connection conn, Statement mySt, ResultSet myRs) throws Exception{
 		try {		
 			if(myRs != null)
@@ -294,6 +409,8 @@ private DataSource dataSource;
 			e.printStackTrace();
 		}
 	}
+
+	
 
 	
 

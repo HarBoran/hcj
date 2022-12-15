@@ -22,22 +22,28 @@
     
      <script>
 	    $(document).ready(function(){
-			$("#checkid").click(function(){
-
-				alert($("#id2").val());
+			$("#checkid").click(function(){		
+		
+				var ii = $("#id_input").val();
+				if(ii == null || ii == ""){
+					alert("is empty");
+					$("#id_input").focus();
+				}else{
+					alert("Failed to enter ID");
+				}
 				
-			/* 	if(confirm("dddd")){	
-					
-	            }else{
-	                return false; */
-	            //}
+				$('#dupid').click(function(){
+			        $.ajax('idCheckForm2.jsp',{
+			            data:{id:$('.id').val()},
+			            success:function(returndata){
+			                $('#divid').html(returndata);
+			                }
+			        
+			            });
+			    });
 			});
 		});
-		
-	
-	</script>
-	
-	
+	</script>	
 
 	
 </head>
@@ -50,31 +56,30 @@
 
       
       
-   
-   <%--    <c:set var = "id" value = <%request.getAttribute("id"); %>/> --%>
-      <form action = "hcj_servlet" method = "POST">
-      <input type="hidden" name="command" value="JOIN" />
-      <%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
-      <input type ="hidden" name="id_check" value = "${id_}"/>
+   		<%--    <c:set var = "id" value = <%request.getAttribute("id"); %>/> --%>
+		<form action = "hcj_servlet" method = "POST">
+		<input type="hidden" name="command" value="JOIN" />
+		<%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
+		<input type ="hidden" name="id_check" value = "${id_}"/>
 
-      <%--  id : ${id_} <br><br> --%>
+		<%--  id : ${id_} <br><br> --%>
+     
        
-       
-         id : <input type = "text" name = "id2" id = "id2" placeholder = "only English" >
-
-		<input type = "button" id = "checkid" value = "checkLink" class="btn btn-outline-warning"><br><br>
+		id : <input type = "text" name = "id" id = "id_input" placeholder = "only English" >
 	
-       password : <input type = "password" name = "password" placeholder = "only Number"><br><br>
+		<input type = "button" id = "checkid" class="btn btn-outline-dark" value= "checkId"><br><br>
+	
+		password : <input type = "password" name = "password" placeholder = "only Number"><br><br>
        
-       name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
+		name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
        
-       birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
+		birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
        
-       phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
+		phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
 
-      <input type ="submit" value = "join">
+		<input type ="submit" value = "join">
  
-      </form>
+		</form>
 
-</body>
+	</body>
 </html>

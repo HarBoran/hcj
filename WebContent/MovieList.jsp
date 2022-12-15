@@ -27,43 +27,32 @@
 	</div>
 	
 	<%String tempid = (String)session.getAttribute("id");%>
-	session = <%=tempid%>
-   
+	
    <div style = "text-align: right;">      
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
-	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
-	</c:if>   
+	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>   
+	</c:if>  
 	<c:if test="${id != null}"> 
+		<i>hello <u>${id}</u>! nice to meet you</i><br>
 		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
-		<a href = "reservationCheck.jsp" class="btn btn-warning">reservationCheck</a>
+		<c:url var = "reservationTicket" value="/hcj_servlet">
+				<c:param name = "command" value = "reservationticket"/>
+		</c:url>
+		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
    </div>
 
-<div class ="container">
-<div class="row">
-       
-
-      &nbsp;&nbsp;&nbsp;
-       <a href="hcj_servlet?command=movieTime&moviename=Iron_Man">
-          <img src = "image/Iron_Man.jpg" width="200px"/>
-       </a>
-      &nbsp;&nbsp;&nbsp;
-       <a href="hcj_servlet?command=movieTime&moviename=Spider_Man">
-          <img src = "image/Spider_Man.jpg" width="200px"/>
-       </a>
-      &nbsp;&nbsp;&nbsp;
-       <a href="hcj_servlet?command=movieTime&moviename=Captain_America">
-          <img src = "image/Captain_America.jpg" width="200px"/>
-       </a>
-       &nbsp;&nbsp;&nbsp;
-       <a href="hcj_servlet?command=movieTime&moviename=Thor">
-          <img src = "image/Thor.jpg" width="200px"/>
-       </a>
-       </div>
-
-      
-   
-</div>
+	<div class ="container">
+		<div class="row">
+		       
+			<c:forEach var = "arrMovie" items = "${movie_list}">
+				&nbsp;&nbsp;&nbsp;
+				<a href="hcj_servlet?command=movieTime&moviename=${arrMovie.title}">
+				   <img src = "image/${arrMovie.poster}" width="200px"/>
+				</a>
+			</c:forEach>
+		</div>
+	</div>
 </body>
 </html>

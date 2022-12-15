@@ -17,16 +17,6 @@
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
 
-
-	<style>
-	#ticket{
-		position: absolute;
-		width : 200px;
-		border: 1px solid purple;
-		background-color : #008000;
-	}
-
-	</style>
 </head>
 
 <body>
@@ -36,42 +26,76 @@
 		</a>
 	</div>
 	<%String tempid = (String)session.getAttribute("id");%>
-	<h3>sessionID = <%=tempid %></h3>
-	
-
-	<c:url var = "tempLink" value="/hcj_servlet">						
-		<c:param name = "command" value = "reservationticket"/>
-		<c:param name = "id" value = "tempid"/>
-	</c:url>
-	<a href = "${tempLink}" class="btn btn-outline-info">reservationCheck</a>
-
-
-
-	<c:forEach var= "tempTicket" items = "${reservationTicketTemp}" varStatus = "status">
-	<div style = "position: relative;">
-		<div id = "ticket" style = "left : ${(status.index % 5) * 150}px;  top : ${status.index* 50}px;">
-			${status.index % 5}
-			<b>${tempTicket.title}</b>
-			<br>
-			${tempTicket.date}
-			${tempTicket.time}
-			${tempTicket.running_time}
-			<br>
-			<b>theater</b> ${tempTicket.theater}
-			<b>seat_name</b> ${tempTicket.seat_name}
-			<br>
-				<c:url var = "cancelLink" value="/hcj_servlet">
-					<c:param name = "command" value = "cancel"/>
-					<c:param name = "tempindex" value = "${tempTicket.index}"/>
-				</c:url>
-			<div style = "text-align: center;">
-				<a href = "${cancelLink}" class="btn btn-dark">Cancel</a>
-			</div>			
-		</div>
+	<div style = "text-align: right;">
+		<c:if test="${id != null}"> 
+		<i>hello <u>${id}</u>! nice to meet you</i><br>
+		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
+		<c:url var = "reservationTicket" value="/hcj_servlet">
+				<c:param name = "command" value = "reservationticket"/>
+		</c:url>
+		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
+	</c:if>
 	</div>
-	</c:forEach> 
+	<h2>Reservation information</h2>
+		<table border = "2">
+			<tr>
+				<th>title</th>
+				<th>date</th>
+				<th>time</th>
+				<th>running_time</th>
+				<th>theater</th>
+				<th>seat_name</th>
+				<th>cancel</th>
+			</tr>
+		<c:forEach var= "reservationTicket" items = "${reservationTicketTemp}">
+						
+			<tr>
+				<td>${reservationTicket.title}</td>
+				<td>${reservationTicket.date}</td>
+				<td>${reservationTicket.time}</td>
+				<td>${reservationTicket.running_time}</td>
+				<td>${reservationTicket.theater}</td>
+				<td> ${reservationTicket.seat_name}</td>
+				<td><c:url var = "cancelLink" value="/hcj_servlet">
+					<c:param name = "command" value = "cancel"/>
+					<c:param name = "tempindex" value = "${reservationTicket.index}"/>
+				</c:url>
+				<a href = "${cancelLink}" class="btn btn-dark">Cancel</a></td>
+			</tr>
+		
+		</c:forEach>
+		</table>
+		<hr>
 	
-	
+	<h2>Reservation cancellation information</h2>
+	<table border = "2">
+				<tr>
+					<th>title</th>
+					<th>date</th>
+					<th>time</th>
+					<th>running_time</th>
+					<th>theater</th>
+					<th>seat_name</th>
+					<th>cancel</th>
+				</tr>
+			<c:forEach var= "deleteCancelTicket" items = "${canceledTicketTemp}">
+							
+				<tr>
+					<td>${deleteCancelTicket.title}</td>
+					<td>${deleteCancelTicket.date}</td>
+					<td>${deleteCancelTicket.time}</td>
+					<td>${deleteCancelTicket.running_time}</td>
+					<td>${deleteCancelTicket.theater}</td>
+					<td> ${deleteCancelTicket.seat_name}</td>
+					<td><c:url var = "deleteLink" value="/hcj_servlet">
+						<c:param name = "command" value = "delete"/>
+						<c:param name = "tempindex" value = "${deleteCancelTicket.index}"/>
+					</c:url>
+					<a href = "${deleteLink}" class="btn btn-dark">Delete</a></td>
+				</tr>
+			
+			</c:forEach>
+			</table>
 	
 </body>
 </html>
