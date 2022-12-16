@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import= "com.web.jdbc.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>세션 로그인</title>
+<title>User_nonUser_Login</title>
   <!-- 부트스트랩 -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -27,6 +28,7 @@
 
 <form action="hcj_servlet" method="POST">
 <input type = "hidden" name ="command" value= "Login"/>
+<input type = "hidden" name = "page" value = "page"/>
 <!--로그인 시 서블릿단으로 아이디와 패스워드를 파라미터 값으로 보냄  -->
    <table>
       <tr>

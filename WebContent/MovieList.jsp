@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import= "com.web.jdbc.*" %>
 
@@ -31,7 +32,8 @@
    <div style = "text-align: right;">      
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
-	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>   
+	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
+	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
 	</c:if>  
 	<c:if test="${id != null}"> 
 		<i>hello <u>${id}</u>! nice to meet you</i><br>
@@ -48,7 +50,7 @@
 		       
 			<c:forEach var = "arrMovie" items = "${movie_list}">
 				&nbsp;&nbsp;&nbsp;
-				<a href="hcj_servlet?command=movieTime&moviename=${arrMovie.title}">
+				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}">
 				   <img src = "image/${arrMovie.poster}" width="200px"/>
 				</a>
 			</c:forEach>

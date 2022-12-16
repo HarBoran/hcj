@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import= "com.web.jdbc.*" %>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -61,8 +61,26 @@
 		</a>
 	</div>
 	
-	<h3>Seat Choice</h3>
+	
 	<%String sessionid = (String)session.getAttribute("id"); %>
+
+   <div style = "text-align: right;">      
+   <c:if test="${id == null}">
+	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
+	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
+	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
+	</c:if>  
+	<c:if test="${id != null}"> 
+		<i>hello <u>${id}</u>! nice to meet you</i><br>
+		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
+		<c:url var = "reservationTicket" value="/hcj_servlet">
+				<c:param name = "command" value = "reservationticket"/>
+		</c:url>
+		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
+	</c:if>
+   </div>
+   
+   <h3>Seat Choice</h3>
 
 	<form action = "hcj_servlet" method="GET" class="was-validated">
 		<input type="hidden" name="command" value="reservation" />

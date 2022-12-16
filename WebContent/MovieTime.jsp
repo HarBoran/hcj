@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MovieTicket</title>
+<title>MovieTime</title>
    <meta charset="utf-8">
    <!-- 부트스트랩 -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,6 +30,24 @@
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
 		</a>
 	</div>
+	
+		<%String tempid = (String)session.getAttribute("id");%>
+	
+   <div style = "text-align: right;">      
+   <c:if test="${id == null}">
+	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
+	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
+	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
+	</c:if>  
+	<c:if test="${id != null}"> 
+		<i>hello <u>${id}</u>! nice to meet you</i><br>
+		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
+		<c:url var = "reservationTicket" value="/hcj_servlet">
+				<c:param name = "command" value = "reservationticket"/>
+		</c:url>
+		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
+	</c:if>
+   </div>
 
 		 <table border = 1 >
 	  <tr>

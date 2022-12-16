@@ -1,10 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import= "com.web.jdbc.*" %>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>MovieList</title>
+<title>reservationCheck</title>
    <!-- 부트스트랩 -->
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">

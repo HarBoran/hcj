@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -142,29 +143,34 @@ public class hcj_servlet extends HttpServlet {
 	         
 	         String id = request.getParameter("id");
 	         String pw = request.getParameter("password");
-	
+	         String page = request.getParameter("page");
+	         System.out.println("page " + page);
 	        
 	         if(hcj_model.Login(id, pw)==true) {
 	            request.setAttribute("id",id);
 	            request.setAttribute("password",pw);
 	            HttpSession session = request.getSession();
 	            session.setAttribute("id", id);
-	              RequestDispatcher dispatcher = request.getRequestDispatcher("/main2.jsp");     
-	              dispatcher.forward(request, response);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/main2.jsp");
+	            //RequestDispatcher dispatcher = request.getRequestDispatcher("hcj_servlet");     
+	            dispatcher.forward(request, response);
 	              //만약 로그인 메서드가 트루 이면 Logingo.jsp에서 나머지 작업을 수행 (세션을 /Logingo.jsp에서 저장)
 	         }else if (hcj_model.Login(id, pw)==false) {
 	             RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");     
 	                 dispatcher.forward(request, response);
 	         }
 	         
-	      }
+	      }  
+	 
 
    
    public void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	      String id = request.getParameter("id");
-	      System.out.println(id);
+
+	      request.setAttribute("id", id);
 	      request.setAttribute("check_id", hcj_model.checkId(id));
-	      /*
+
+	     
 	      if (hcj_model.checkId(id)==true) {
 	         RequestDispatcher dispatcher = request.getRequestDispatcher("/CheckId_2.jsp");     
 	         dispatcher.forward(request, response);
@@ -174,8 +180,9 @@ public class hcj_servlet extends HttpServlet {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/Join_Member.jsp");     
 	            dispatcher.forward(request, response);
 	      }
-	     */
-	}
+	     
+	}   
+  
 
 
    public void joinMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
@@ -273,23 +280,23 @@ public class hcj_servlet extends HttpServlet {
 	         int nonuser_index = 0;
 	         int user_index = user_id;
 	         
-		     for (int i = 0; i <seat_index.length; i++) {
-		         reservation_dto reservation = new reservation_dto(sch_num, Integer.parseInt(seat_index[i]), check_user, nonuser_index, user_index);
-		         request.setAttribute("reservationConfirm", reservation);
-	
-		      
-		         if(check_user == 0) {
-		            hcj_model.nonuser_reservation(reservation);
-		         }else if(check_user == 1) {         
-		            hcj_model.user_reservation(reservation);
-		         }      
-		     }   
-		   
-	            RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationConfirm.jsp");
-	            dispatcher.forward(request, response);
-	      } 
-	   }
+	         List<reservation_dto> reservations = new ArrayList<>();
+	           for (int i = 0; i <seat_index.length; i++) {
+	               reservation_dto reservation = new reservation_dto(sch_num, Integer.parseInt(seat_index[i]), check_user, nonuser_index, user_index);
+	               if(check_user == 0) {
+	                   hcj_model.nonuser_reservation(reservation);
+	                }else if(check_user == 1) {         
+	                   hcj_model.user_reservation(reservation);
+	                }  
+	               reservations.add(reservation);
 
+	           }
+	           List<reservationTicket_dto> reservationConfirm = hcj_model.reservations_complete(reservations);
+	           request.setAttribute("reservationConfirm", reservationConfirm);
+	           RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationConfirm.jsp");
+	           dispatcher.forward(request, response);
+	         } 
+	   }   
 
 	public void listMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
@@ -310,9 +317,10 @@ public class hcj_servlet extends HttpServlet {
 	
    public void movieTime(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	      
-	      String movietitle = request.getParameter("moviename");
-	      int movie_num = hcj_model.titleChangeMoiveNum(movietitle);
-
+	     // String movietitle = request.getParameter("moviename");
+	      //int movie_num = hcj_model.titleChangeMoiveNum(movietitle);	      
+	      int movie_num = Integer.parseInt(request.getParameter("movieNum"));
+	      
 	      List<movie_dto> movieschedule = hcj_model.MovieTime(movie_num);
 	      request.setAttribute("scheduleList", movieschedule);
 	      
