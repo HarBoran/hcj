@@ -7,17 +7,21 @@ public class MovieList_dto {
 	   private int age_limit;
 	   private String running_time;
 	   private String poster;  
-   
-   public MovieList_dto(int movie_num, String title, String genre, int age_limit, String running_time, String poster) {
-      super();
-      this.movie_num = movie_num;
-      this.title = title;
-      this.genre = genre;
-      this.age_limit = age_limit;
-      this.running_time = running_time;
-      this.poster = poster;
-   }
-   public int getMovie_num() {
+	   private String trailer;
+	   
+   public MovieList_dto(int movie_num, String title, String genre, int age_limit, String running_time, String poster,
+			String trailer) {
+		super();
+		this.movie_num = movie_num;
+		this.title = title;
+		this.genre = genre;
+		this.age_limit = age_limit;
+		this.running_time = running_time;
+		this.poster = poster;
+		this.trailer = trailer;
+	}
+
+public int getMovie_num() {
       return movie_num;
    }
    public void setMovie_num(int movie_num) {
@@ -52,10 +56,14 @@ public class MovieList_dto {
    }
    public void setPoster(String poster) {
       this.poster = poster;
+   }   
+   public String getTrailer() {
+	   return trailer;
    }
-   
-   
-   @Override
+   public void setTrailer(String trailer) {
+	   this.trailer = trailer;
+   }
+@Override
    public String toString() {
       return "MovieList_dto [movie_num=" + movie_num + ", title=" + title + ", genre=" + genre + ", age_limit="
             + age_limit + ", running_time=" + running_time + ", poster=" + poster + "]";

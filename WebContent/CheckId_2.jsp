@@ -16,6 +16,11 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    
+    <script>
+		alert("This ID is already registered")
+		history.back();
+	</script>
 </head>
 <body>
 	<div class="text-center">

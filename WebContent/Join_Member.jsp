@@ -21,99 +21,109 @@
     <script src = "js/script.js"></script>
     
     <script>
-    	$(document).ready(function(){   
-    		if$(${check_id} ==true){
-    			alert("아이디가 존재합니다");
-    		}
-    		
-    		
-    		});    			
-    	});   	
-    	
+       $(document).ready(function(){   
+          if$(${check_id} ==true){
+             alert("아이디가 존재합니다");
+          }
+          
+          
+          });             
+       });      
+       
     </script>
     
     
     <script>
-    	$(document).ready(function(){   
-    		$("#join").click(function(){
-    			console.log("이건 어디에 나오나?")
+       $(document).ready(function(){   
+          $("#join").click(function(){
+             console.log("이건 어디에 나오나?")
 
-    		if($("#pwd").val() != $("#pwd_check").val()){
-    			alert("비밀번호가 맞지 안습니다.")
-    			return false;
-    			}
-    		});    			
-    	});
+          if($("#pwd").val() != $("#pwd_check").val()){
+             alert("비밀번호가 맞지 안습니다.")
+             return false;
+             }
+          });             
+       });
     
     </script>
     
      <script>
-	    $(document).ready(function(){
-			$("#checkid").click(function(){			
-				var ii = $("#id_input").val();
-					if(ii == null || ii == ""){
-						alert("is empty");					
-					}else{
-						alert("Failed to enter ID");
-					}
-				$("#id_input").focus();
-			});
-		});
-	</script>	
+       $(document).ready(function(){
+         $("#checkid").click(function(){         
+            var ii = $("#id_input").val();
+               if(ii == null || ii == ""){
+                  alert("is empty");               
+               }else{
+                  alert("Failed to enter ID");
+               }
+            $("#id_input").focus();
+         });
+      });
+   </script>   
 
-	
+   
 </head>
 <body>  
-	<div class="text-center">
-		<a href="hcj_servlet?command=list">
-			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
-		</a>
-	</div> 
+   <div class="text-center">
+      <a href="hcj_servlet?command=list">
+         <img src ="image/movie.png" width="80px"><h2>HCJ</h2>
+      </a>
+   </div> 
 
-      
-      
-   		<%--    <c:set var = "id" value = <%request.getAttribute("id"); %>/> --%>
-		<form action = "hcj_servlet" method = "POST">
-		<input type="hidden" name="command" value="JOIN" />
-		<%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
-		<input type ="hidden" name="id_check" value = "${id_}"/>
+         <div>
+         <form action = "hcj_servlet" method = "POST">
+              
+         id : <input type = "text" name = "id"  placeholder = "only English" >
+           <input type="hidden" name="command" value="checkId" />        
+          <input id="check_id" type = "submit" value = "checkId"><br><br>
+     
+      </form>
+      </div>
+   
+         <%--    <c:set var = "id" value = <%request.getAttribute("id"); %>/> --%>
+      <form action = "hcj_servlet" method = "POST">
+      <input type="hidden" name="command" value="JOIN" />
+      <%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
+      <input type ="hidden" name="id_check" value = "${id_}"/>
 
-		id : ${id_} <br><br>
+      <%-- id : ${id_} <br><br> --%>
      
        
-		<!-- id : <input type = "text" name = "id" id = "id_input" placeholder = "only English" > -->
-		
-		<!-- <input type = "button" id = "checkid" class="btn btn-outline-dark" value= "checkId"> -->
-					
-<%-- 		
-		<c:url var = "checkLink" value="/hcj_servlet">
-				<c:set var="j" value ="${id}"/>
-				<c:param name = "command" value = "JOIN"/>
-				<c:param name = "id" value = "${j}"/>
-		</c:url>
-		<a href = "${checkLink}" class="btn btn-outline-warning">Update</a> 
-		
-		<input type="button" onclick="checkId()" value="중복 확인">
-		
-		
- 		<a href="#" onclick="location.href/hcj_servlets">꾸울팁</a>
-		<br><br>
-					 --%>
-	
-		password : <input type = "password" name = "password" id= "pwd" placeholder = "only Number"><br><br>
-       	password(check) : <input type = "password" id = "pwd_check" placeholder = "only Number"><br><br>
-		
-		name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
+      <!-- id : <input type = "text" name = "id" id = "id_input" placeholder = "only English" > -->
+      
+      <!-- <input type = "button" id = "checkid" class="btn btn-outline-dark" value= "checkId"> -->
+               
+<%--       
+      <c:url var = "checkLink" value="/hcj_servlet">
+            <c:set var="j" value ="${id}"/>
+            <c:param name = "command" value = "JOIN"/>
+            <c:param name = "id" value = "${j}"/>
+      </c:url>
+      <a href = "${checkLink}" class="btn btn-outline-warning">Update</a> 
+      
+      <input type="button" onclick="checkId()" value="중복 확인">
+      
+      
+       <a href="#" onclick="location.href/hcj_servlets">꾸울팁</a>
+      <br><br>
+                --%>
+         
+               
+      id : <input type ="text" name ="id" id = "input_id" value="${id_ }"><br><br>
+      password : <input type = "password" name = "password" id= "pwd" placeholder = "only Number"><br><br>
+      password(check) : <input type = "password" id = "pwd_check" placeholder = "only Number"><br><br>
+      
+      name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
        
-		birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
+      birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
        
-		phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
-	
-		<% String str = UUID.randomUUID().toString().split("-")[1]; %>
-		<% session.setAttribute("auth", str); %>
-		<input type ="submit" id = "join" value = "join">
+      phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
+   
+      <% String str = UUID.randomUUID().toString().split("-")[1]; %>
+      <% session.setAttribute("auth", str); %>
+      <input type ="submit" id = "join" value = "join">
  
-		</form>
+   </form>
 
-	</body>
+   </body>
 </html>

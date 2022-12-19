@@ -134,7 +134,8 @@ private DataSource dataSource;
 		            int age_limit = myRs.getInt("age_limit");
 		            String running_time = myRs.getString("running_time");
 		            String poster = myRs.getString("poster");
-		            MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster);
+		            String trailer = myRs.getString("trailer");
+		            MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster,trailer);
 		            Movies.add(tempMovie);
 		         }
 		         return Movies;

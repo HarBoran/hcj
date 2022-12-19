@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style ="background-color:black">
 	<div class="text-center">
 		<a href="hcj_servlet?command=list">
 			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
@@ -33,7 +33,7 @@
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
 	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
-	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
+	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>   
 	</c:if>  
 	<c:if test="${id != null}"> 
 		<i>hello <u>${id}</u>! nice to meet you</i><br>
@@ -44,16 +44,44 @@
 		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
    </div>
+   
+ 
 
-	<div class ="container">
-		<div class="row">
-		       
+<script>
+	$(document).ready(function(){
+		$(".popupModalVideo a").click(function() {
+		    $(".video_modal_popup").addClass("reveal"),
+		    $(".video_modal_popup .video-wrapper").remove(),
+		    $(".video_modal_popup").append("<div class='video-wrapper'><iframe width='560' height='315' src='https://youtube.com/embed/" + $(this).data("video") + "?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrypted-media' allowfullscreen></iframe></div>")
+		}),
+		$(".video_modal_popup-closer").click(function() {
+		    $(".video_modal_popup .video-wrapper").remove(),
+		    $(".video_modal_popup").removeClass("reveal")
+		});
+	});   
+</script>    
+   
+
+	<div class ="container" style="background-color:white">
+		<div class="row" style = "flex-wrap: nowrap; ">  		       
 			<c:forEach var = "arrMovie" items = "${movie_list}">
+			<div style = "flex-directiob : column;"> 
 				&nbsp;&nbsp;&nbsp;
-				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}">
+				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}" id ="movie_${arrMovie.movie_num}" >
 				   <img src = "image/${arrMovie.poster}" width="200px"/>
 				</a>
+				&nbsp;
+				<div class="popupModalVideo">
+				    <a data-video="${arrMovie.trailer}" class = "btn btn-info">예고편</a>
+				</div>	
+				${arrMovie.trailer}<br>
+			</div>		
+			
 			</c:forEach>
+			
+			<div class="video_modal_popup" style = "flex-directiob : column;">
+			  <div class="video_modal_popup-closer"></div>
+			</div>
 		</div>
 	</div>
 </body>
