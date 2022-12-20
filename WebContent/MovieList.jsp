@@ -17,13 +17,33 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    
+    <script>
+		$(document).ready(function(){
+		  $('[data-toggle="tooltip"]').tooltip();
+		});
+	</script>
+	
+	<style>
+	#background_image{
+		opacity: 0.14;
+	}
+	
+	h2 {
+	  font-family: "Sofia", sans-serif;
+	  font-variant: small-caps;
+	  color: gray; 
+	  font-size: 60px;
+	}
+	
+	</style>
 
 </head>
 
-<body style ="background-color:black">
+<body><!--  style = "background-color : black"> -->
 	<div class="text-center">
-		<a href="hcj_servlet?command=list">
-			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
+		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
+			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
 		</a>
 	</div>
 	
@@ -43,45 +63,66 @@
 		</c:url>
 		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
-   </div>
+   </div>   
    
- 
-
-<script>
-	$(document).ready(function(){
-		$(".popupModalVideo a").click(function() {
-		    $(".video_modal_popup").addClass("reveal"),
-		    $(".video_modal_popup .video-wrapper").remove(),
-		    $(".video_modal_popup").append("<div class='video-wrapper'><iframe width='560' height='315' src='https://youtube.com/embed/" + $(this).data("video") + "?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrypted-media' allowfullscreen></iframe></div>")
-		}),
-		$(".video_modal_popup-closer").click(function() {
-		    $(".video_modal_popup .video-wrapper").remove(),
-		    $(".video_modal_popup").removeClass("reveal")
-		});
-	});   
-</script>    
+	<div id="demo" class="carousel slide" data-ride="carousel" style = "position :relative;">
+	
+	
+	
+	  <!-- Indicators -->
+	  <ul class="carousel-indicators">
+	    <li data-target="#demo" data-slide-to="0" class="active"></li>
+	    <li data-target="#demo" data-slide-to="1"></li>
+	    <li data-target="#demo" data-slide-to="2"></li>
+	    <li data-target="#demo" data-slide-to="3"></li>
+	  </ul>
+	  
+	  <!-- The slideshow -->
+	  <div class="carousel-inner">
+		  <div style = "text-align: center;"> 
+		    <div class="carousel-item active">
+		        <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[0].movie_num}">
+		               <img src = "image/${movie_list[0].poster}" id = "background_image" width="100%" height="800"/>
+		            </a>
+		    </div>
+		    <div class="carousel-item">
+		                 <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[1].movie_num}">
+		               <img src = "image/${movie_list[1].poster}" id = "background_image" width="100%" height="800"/>
+		            </a>
+		    </div>
+		    <div class="carousel-item">
+		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[2].movie_num}">
+		               <img src = "image/${movie_list[2].poster}" id = "background_image" width="100%" height="800"/>
+		            </a>
+		    </div>
+		     <div class="carousel-item">
+		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[3].movie_num}">
+		               <img src = "image/${movie_list[3].poster}" id = "background_image" width="100%" height="800"/>
+		            </a>
+		    </div>		  
+		  
+		  <!-- Left and right controls -->
+		  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+		    <span class="carousel-control-prev-icon"></span>
+		  </a>
+		  <a class="carousel-control-next" href="#demo" data-slide="next">
+		    <span class="carousel-control-next-icon"></span>
+		  </a>
+		  </div>
+	  </div>
+	</div>
    
-
-	<div class ="container" style="background-color:white">
-		<div class="row" style = "flex-wrap: nowrap; ">  		       
+	<div class ="container">
+		<div class="row" style = "flex-wrap: nowrap; position: absolute; top:250px ; border: 0px solid #999;">  		       
 			<c:forEach var = "arrMovie" items = "${movie_list}">
-			<div style = "flex-directiob : column;"> 
-				&nbsp;&nbsp;&nbsp;
-				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}" id ="movie_${arrMovie.movie_num}" >
+			<div class="col-3" style = "flex-directiob : column;"> 
+				<!-- &nbsp;&nbsp;&nbsp; -->
+				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}" id ="movie_${arrMovie.movie_num}" data-toggle="tooltip" title="${arrMovie.title}">
 				   <img src = "image/${arrMovie.poster}" width="200px"/>
 				</a>
-				&nbsp;
-				<div class="popupModalVideo">
-				    <a data-video="${arrMovie.trailer}" class = "btn btn-info">예고편</a>
-				</div>	
-				${arrMovie.trailer}<br>
 			</div>		
 			
 			</c:forEach>
-			
-			<div class="video_modal_popup" style = "flex-directiob : column;">
-			  <div class="video_modal_popup-closer"></div>
-			</div>
 		</div>
 	</div>
 </body>

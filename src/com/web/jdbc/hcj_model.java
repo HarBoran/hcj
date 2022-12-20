@@ -52,20 +52,24 @@ private DataSource dataSource;
 	}
 
 
-	public void cancel(int index) throws Exception{
+	public void cancel(int index, String multiple_seat) throws Exception{
 		Connection conn = null;
-		PreparedStatement pst = null;
+		PreparedStatement pst = null;		
 		
 		try {
 			conn = dataSource.getConnection();
-			String sql = "UPDATE reservation SET cancellations = \"cancel\" "
-					+ "where reservation.index = ?";
-			//String sql = "UPDATE reservation SET cancellations = \"cancel\" "
-			//		+" where multiple_seat= "
-			//		+" (SELECT multiple_seat FROM reservation WHERE reservation.index = ?)";
-
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, index);
+			String sql = null;
+				if(multiple_seat == null) {
+					sql = "UPDATE reservation SET cancellations = \"cancel\" "
+							+ "where reservation.index = ?";
+					pst = conn.prepareStatement(sql);
+					pst.setInt(1, index);
+				}else if(multiple_seat != null) {
+					sql = "UPDATE reservation SET cancellations = \"cancel\" "
+							+" where multiple_seat= ?";
+					pst = conn.prepareStatement(sql);
+					pst.setString(1, multiple_seat);
+				}
 			pst.execute();
 			
 		}finally {
@@ -75,17 +79,23 @@ private DataSource dataSource;
 	}
 		
 		
-	public void delete(int index) throws Exception{
+	public void delete(int index, String multiple_seat) throws Exception{
 		Connection conn = null;
 		PreparedStatement pst = null;
 		
 		try {
 			conn = dataSource.getConnection();
-			String sql = "Delete from reservation where reservation.index = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, index);
+			String sql  = null;
+			if(multiple_seat == null) {				
+				sql = "Delete from reservation where reservation.index = ?";
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, index);
+			}else if(multiple_seat != null){
+				sql = "Delete from reservation where multiple_seat= ?";
+				pst = conn.prepareStatement(sql);
+				pst.setString(1, multiple_seat);
+			}
 			pst.execute();
-			
 		}finally {
 			close(conn, pst, null);
 		}
@@ -134,8 +144,7 @@ private DataSource dataSource;
 		            int age_limit = myRs.getInt("age_limit");
 		            String running_time = myRs.getString("running_time");
 		            String poster = myRs.getString("poster");
-		            String trailer = myRs.getString("trailer");
-		            MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster,trailer);
+		            MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster);
 		            Movies.add(tempMovie);
 		         }
 		         return Movies;
@@ -187,6 +196,29 @@ private DataSource dataSource;
               close(conn, mySt, myRs);
            }   
         }      	
+	   
+	   public String indexToMultipleseat(int index) throws Exception{
+		   Connection conn = null;
+		   PreparedStatement mySt = null;
+		   ResultSet myRs = null;
+		   
+		   try {
+			   conn = dataSource.getConnection();
+			   String sql = "SELECT multiple_seat "
+			   		+ "FROM reservation "
+			   		+ "where reservation.index=?";
+			   mySt = conn.prepareStatement(sql);
+			   mySt.setInt(1, index);
+			   
+			   myRs = mySt.executeQuery();
+			   myRs.next();
+			String multiple_seat = myRs.getString("multiple_seat");
+			return multiple_seat;
+			
+		   }finally {
+			   close(conn, mySt, null);
+		   }
+	   }
 	
 	   public List<reservationTicket_dto> canceledTicketLookUp (int id) throws Exception{
 
@@ -436,8 +468,7 @@ private DataSource dataSource;
      
         
      }   
-	
-	
+		
 	protected void close(Connection conn, Statement mySt, ResultSet myRs) throws Exception{
 		try {		
 			if(myRs != null)

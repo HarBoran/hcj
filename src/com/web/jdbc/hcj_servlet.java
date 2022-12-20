@@ -130,49 +130,47 @@ public class hcj_servlet extends HttpServlet {
 	         }
 	      }
 
-	   private void nonUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		   
-		      String name = request.getParameter("name");
-		      String birth = request.getParameter("birth");
-		      String phone_num = request.getParameter("phone_num");
+   private void nonUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	   
+	      String name = request.getParameter("name");
+	      String birth = request.getParameter("birth");
+	      String phone_num = request.getParameter("phone_num");
 
-		}
+	}
    
 	   @SuppressWarnings("unused")
-	   private void Login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	         
-	         String id = request.getParameter("id");
-	         String pw = request.getParameter("password");
-	        
-	         if(hcj_model.Login(id, pw)==true) {
-	            request.setAttribute("id",id);
-	            request.setAttribute("password",pw);
-	            HttpSession session = request.getSession();
-	            session.setAttribute("id", id);
-	           	
-	            Integer sch_num = null;
-	           if(session.getAttribute("sch_num") != null){	
-	            	sch_num = (int)session.getAttribute("sch_num");	
-	           }
-	           
-	            if(sch_num == null) {	            
-	            	RequestDispatcher dispatcher = request.getRequestDispatcher("/main2.jsp");
-	            	 dispatcher.forward(request, response);
-	            }else if(sch_num != null) {
-	            	String checkPage = "loginpage";
-	            	session.setAttribute("checkPage", checkPage);
-	            	response.sendRedirect(request.getContextPath()+"/hcj_servlet?command=reservation");
-	            }
-	    
-	              //만약 로그인 메서드가 트루 이면 Logingo.jsp에서 나머지 작업을 수행 (세션을 /Logingo.jsp에서 저장)
-	         }else if (hcj_model.Login(id, pw)==false) {
-	             RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");     
-	                 dispatcher.forward(request, response);
-	         }
-	         
-	      }  
-	 
-
+  private void Login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+         
+         String id = request.getParameter("id");
+         String pw = request.getParameter("password");
+        
+         if(hcj_model.Login(id, pw)==true) {
+            request.setAttribute("id",id);
+            request.setAttribute("password",pw);
+            HttpSession session = request.getSession();
+            session.setAttribute("id", id);
+           	
+            Integer sch_num = null;
+           if(session.getAttribute("sch_num") != null){	
+            	sch_num = (int)session.getAttribute("sch_num");	
+           }
+           
+            if(sch_num == null) {	            
+            	RequestDispatcher dispatcher = request.getRequestDispatcher("/main2.jsp");
+            	 dispatcher.forward(request, response);
+            }else if(sch_num != null) {
+            	String checkPage = "loginpage";
+            	session.setAttribute("checkPage", checkPage);
+            	response.sendRedirect(request.getContextPath()+"/hcj_servlet?command=reservation");
+            }
+    
+              //만약 로그인 메서드가 트루 이면 Logingo.jsp에서 나머지 작업을 수행 (세션을 /Logingo.jsp에서 저장)
+         }else if (hcj_model.Login(id, pw)==false) {
+             RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");     
+                 dispatcher.forward(request, response);
+         }
+         
+      }  
    
    public void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
          String id = request.getParameter("id");
@@ -192,9 +190,6 @@ public class hcj_servlet extends HttpServlet {
          }
         
    }   
-	  
-  
-
 
    public void joinMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
        
@@ -230,22 +225,24 @@ public class hcj_servlet extends HttpServlet {
          RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieList.jsp");     
          dispatcher.forward(request, response);
     }
-
    
    private void cancel(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		int index = Integer.parseInt(request.getParameter("tempindex"));
-		hcj_model.cancel(index);
+		String multiple_seat = hcj_model.indexToMultipleseat(index);
+		hcj_model.cancel(index, multiple_seat);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("hcj_servlet?command=reservationticket");	  
 		dispatcher.forward(request, response);
 	}
    
   private void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		int index = Integer.parseInt(request.getParameter("tempindex"));
-		hcj_model.delete(index);
+		String multiple_seat = hcj_model.indexToMultipleseat(index);
+		hcj_model.delete(index, multiple_seat);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("hcj_servlet?command=reservationticket");	  
 		dispatcher.forward(request, response);
 	}
-   
    
    private void reservationTicket(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	   //새션에서 (Stirng)id 값 받기
@@ -269,61 +266,67 @@ public class hcj_servlet extends HttpServlet {
    }	
    
    private void reservation(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		
-	   //새션에서 (Stirng)id 값 받기
-	   	HttpSession session = request.getSession();
-	   	String id = (String)session.getAttribute("id");
+       
+       //새션에서 (Stirng)id 값 받기
+          HttpSession session = request.getSession();
+          String id = (String)session.getAttribute("id");
 
-		if(id == null) {
-			int sch_num = Integer.parseInt(request.getParameter("sch_num"));
-			String[] seat_index = request.getParameterValues("seat_to_reserve");
-			session.setAttribute("sch_num", sch_num);
-			session.setAttribute("seat_index", seat_index);	       
-			
-	    	//response.sendRedirect(request.getContextPath()+"/User_nonUser.jsp");
-	         RequestDispatcher dispatcher = request.getRequestDispatcher("/User_nonUser.jsp");
-	         dispatcher.forward(request, response);//만약 받아온 세션아이디가 null이면 User_nonUser page로가서 로그인이나 비회원 로그인을 하도록 유도
-	    
-		}else if(!id.equals("null")) {
-			String checkPage = (String)session.getAttribute("checkPage");
-			
-				//id 값  (int)index로 변경 
-		    	  int user_id = hcj_model.sessionidChangeUserTable(id);
-		         // 세션 아이디가 null이 아닐 경우에 reservation 메서드 내용이 실행됨
-		    	 
-		    	 int sch_num = 0;
-		    	 String[] seat_index = null;
-			    	 if(checkPage == null) {
-				    	 sch_num = Integer.parseInt(request.getParameter("sch_num"));
-		   		         seat_index = request.getParameterValues("seat_to_reserve");
-			    	 } else if(checkPage.equals("loginpage")) {
-			    		 sch_num = (int)session.getAttribute("sch_num");	 
-						 seat_index = (String[])session.getAttribute("seat_index");  
-			    	 }
-		         int check_user = 1;
-		         int nonuser_index = 0;
-		         int user_index = user_id;
-		         
-		         List<reservation_dto> reservations = new ArrayList<>();
-		           for (int i = 0; i <seat_index.length; i++) {
-		               reservation_dto reservation = new reservation_dto(sch_num, Integer.parseInt(seat_index[i]), check_user, nonuser_index, user_index);
-		               if(check_user == 0) {
-		                   hcj_model.nonuser_reservation(reservation);
-		                }else if(check_user == 1) {         
-		                   hcj_model.user_reservation(reservation);
-		                }  
-		               reservations.add(reservation);		               
-		           }
-		           session.removeAttribute("checkPage");
-		           session.removeAttribute("sch_num");
-		           session.removeAttribute("seat_index");
-		           
-	           List<reservationTicket_dto> reservationConfirm = hcj_model.reservations_complete(reservations);
-	           request.setAttribute("reservationConfirm", reservationConfirm);
-	           RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationConfirm.jsp");
-	           dispatcher.forward(request, response);				
-		} 
-   }   
+       if(id == null) {
+          int sch_num = Integer.parseInt(request.getParameter("sch_num"));
+          String[] seat_index = request.getParameterValues("seat_to_reserve");
+          session.setAttribute("sch_num", sch_num);
+          session.setAttribute("seat_index", seat_index);          
+          if(seat_index==null){RequestDispatcher dispatcher = request.getRequestDispatcher("/Checkseat.jsp");
+             dispatcher.forward(request, response);}
+           //response.sendRedirect(request.getContextPath()+"/User_nonUser.jsp");
+          else if(seat_index !=null) {RequestDispatcher dispatcher = request.getRequestDispatcher("/User_nonUser.jsp");
+             dispatcher.forward(request, response);//만약 받아온 세션아이디가 null이면 User_nonUser page로가서 로그인이나 비회원 로그인을 하도록 유도
+          }
+       }else if(!id.equals("null")) {
+          String checkPage = (String)session.getAttribute("checkPage");
+          
+             //id 값  (int)index로 변경 
+                int user_id = hcj_model.sessionidChangeUserTable(id);
+                // 세션 아이디가 null이 아닐 경우에 reservation 메서드 내용이 실행됨
+               
+               int sch_num = 0;
+               String[] seat_index = null;
+                  if(checkPage == null) {
+                     sch_num = Integer.parseInt(request.getParameter("sch_num"));
+                         seat_index = request.getParameterValues("seat_to_reserve");
+                  } else if(checkPage.equals("loginpage")) {
+                     sch_num = (int)session.getAttribute("sch_num");    
+                    seat_index = (String[])session.getAttribute("seat_index");  
+                  }
+                  if(seat_index==null){RequestDispatcher dispatcher = request.getRequestDispatcher("/Checkseat.jsp");
+                   dispatcher.forward(request, response);}
+                 else if(seat_index != null) {
+                int check_user = 1;
+                int nonuser_index = 0;
+                int user_index = user_id;
+                
+                List<reservation_dto> reservations = new ArrayList<>();
+                  for (int i = 0; i <seat_index.length; i++) {
+                      reservation_dto reservation = new reservation_dto(sch_num, Integer.parseInt(seat_index[i]), check_user, nonuser_index, user_index);
+                      if(check_user == 0) {
+                          hcj_model.nonuser_reservation(reservation);
+                       }else if(check_user == 1) {         
+                          hcj_model.user_reservation(reservation);
+                       }  
+                      reservations.add(reservation);                     
+                  }
+               
+                  session.removeAttribute("checkPage");
+                  session.removeAttribute("sch_num");
+                  session.removeAttribute("seat_index");
+               
+             
+               List<reservationTicket_dto> reservationConfirm = hcj_model.reservations_complete(reservations);
+               request.setAttribute("reservationConfirm", reservationConfirm);
+               RequestDispatcher dispatcher = request.getRequestDispatcher("/reservationConfirm.jsp");
+               dispatcher.forward(request, response);   }         
+       } 
+    }   
 
 	public void listMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
@@ -337,11 +340,7 @@ public class hcj_servlet extends HttpServlet {
 	      RequestDispatcher dispatcher = request.getRequestDispatcher("/MovieList.jsp");     
 	      dispatcher.forward(request, response);
 	   }
-   
-   
-	
-
-	
+   	
    public void movieTime(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	      
 	     // String movietitle = request.getParameter("moviename");
@@ -355,8 +354,7 @@ public class hcj_servlet extends HttpServlet {
 	         dispatcher.forward(request, response);
 	     	      
 	   }		   
-	
-	
+		
 	private void seatSelection(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//schedule테이블의 sch_num을 변수로 받아 좌석을 조회함
 		int sch_num = Integer.parseInt(request.getParameter("sch_num"));

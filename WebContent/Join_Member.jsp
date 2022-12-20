@@ -108,8 +108,8 @@
       <br><br>
                 --%>
          
-               
-      id : <input type ="text" name ="id" id = "input_id" value="${id_ }"><br><br>
+      <hr>
+      id : <input type ="text" name ="id" id = "input_id" value="${id_ }"  placeholder =" readonly" readonly><br><br>
       password : <input type = "password" name = "password" id= "pwd" placeholder = "only Number"><br><br>
       password(check) : <input type = "password" id = "pwd_check" placeholder = "only Number"><br><br>
       
