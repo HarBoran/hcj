@@ -40,6 +40,7 @@
 
 </head>
 
+
 <body><!--  style = "background-color : black"> -->
 	<div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
@@ -82,22 +83,22 @@
 		  <div style = "text-align: center;"> 
 		    <div class="carousel-item active">
 		        <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[0].movie_num}">
-		               <img src = "image/${movie_list[0].poster}" id = "background_image" width="100%" height="800"/>
+		               <img src = "image/${movie_list[0].poster}" id = "background_image" width="100%" height="500"/>
 		            </a>
 		    </div>
 		    <div class="carousel-item">
 		                 <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[1].movie_num}">
-		               <img src = "image/${movie_list[1].poster}" id = "background_image" width="100%" height="800"/>
+		               <img src = "image/${movie_list[1].poster}" id = "background_image" width="100%" height="500"/>
 		            </a>
 		    </div>
 		    <div class="carousel-item">
 		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[2].movie_num}">
-		               <img src = "image/${movie_list[2].poster}" id = "background_image" width="100%" height="800"/>
+		               <img src = "image/${movie_list[2].poster}" id = "background_image" width="100%" height="500"/>
 		            </a>
 		    </div>
 		     <div class="carousel-item">
 		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[3].movie_num}">
-		               <img src = "image/${movie_list[3].poster}" id = "background_image" width="100%" height="800"/>
+		               <img src = "image/${movie_list[3].poster}" id = "background_image" width="100%" height="500"/>
 		            </a>
 		    </div>		  
 		  
@@ -115,15 +116,37 @@
 	<div class ="container">
 		<div class="row" style = "flex-wrap: nowrap; position: absolute; top:250px ; border: 0px solid #999;">  		       
 			<c:forEach var = "arrMovie" items = "${movie_list}">
-			<div class="col-3" style = "flex-directiob : column;"> 
-				<!-- &nbsp;&nbsp;&nbsp; -->
-				<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}" id ="movie_${arrMovie.movie_num}" data-toggle="tooltip" title="${arrMovie.title}">
-				   <img src = "image/${arrMovie.poster}" width="200px"/>
-				</a>
-			</div>		
-			
+				<div class="col-3"><!--  style = "flex-direction : column;"> -->
+					<!-- &nbsp;&nbsp;&nbsp; -->
+					<a href="hcj_servlet?command=movieTime&movieNum=${arrMovie.movie_num}" id ="movie_${arrMovie.movie_num}" data-toggle="tooltip" title="${arrMovie.title}">
+					   <img src = "image/${arrMovie.poster}" id = "poster" width="200px"/>
+					</a>
+					<br>
+					${arrMovie.trailer_url}
+					<div class="popupModalVideo">
+					    <a data-video="${arrMovie.trailer_url}" class="btn btn-info">예고편</a>
+					</div>
+				
+				</div>					
 			</c:forEach>
 		</div>
+		<div class="video_modal_popup">
+			<div class="video_modal_popup-closer"></div>
+		</div>	
 	</div>
+	
+
+	
+	<script>
+	$(".popupModalVideo a").click(function() {
+	    $(".video_modal_popup").addClass("reveal"),
+	    $(".video_modal_popup .video-wrapper").remove(),
+	    $(".video_modal_popup").append("<div class='video-wrapper'><iframe width='560' height='315' src='https://youtube.com/embed/" + $(this).data("video") + "?rel=0&playsinline=1&autoplay=1' allow='autoplay; encrypted-media' allowfullscreen></iframe></div>")
+	}),
+	$(".video_modal_popup-closer").click(function() {
+	    $(".video_modal_popup .video-wrapper").remove(),
+	    $(".video_modal_popup").removeClass("reveal")
+	});
+	</script> 
 </body>
 </html>

@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
@@ -16,20 +16,20 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
-    
-    <script>
-		alert("This ID is already registered")
-		history.back();
-	</script>
 </head>
 <body>
-	<div class="text-center">
-		<a href="hcj_servlet?command=list">
-			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
-		</a>
-	</div>
+   <div class="text-center">
+      <a href="hcj_servlet?command=list">
+         <img src ="image/movie.png" width="80px"><h2>HCJ</h2>
+      </a>
+   </div>
 
-This ID is already registered
+<script>
+alert("This ID is already registered")
+/* ID가 이미 존재 할 때 CheckId_2 page로 넘겨 경고창을 띄워줌 */
+history.back();
+/* 경고창을 띄운 뒤 이전페이지로 넘겨줌 */
+</script>
 
 <a href = "CheckId_1.jsp">return</a>
 </body>

@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import= "com.web.jdbc.*" %>
 
@@ -48,34 +49,42 @@
 		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
    </div>
-
-		 <table border = 1 >
-	  <tr>
-	              <th>sch_num</th>
-	               <th>theater</th>
-	               <th>date</th>
-	               <th>time</th>
-	               <th>reservation</th>
-	   </tr>
-	<c:forEach var = "List" items = "${scheduleList}">
-	 <tr>
-	 <c:url var ="seat_reservation" value="/hcj_servlet">
-		 <c:param name ="command" value="seatSelection"/>
-		 <c:param name = "sch_num" value = "${List.sch_num}"/>               
-	 </c:url>
-	<td>${List.sch_num}</td>
-	 
-	<td>${List.theater}</td>
+   
+   	
+		 <div>
+		   <h3>${movie_info.title}</h3>
+		   장르 : ${movie_info.genre}<br>
+		   등급 : ${movie_info.age_limit}세 관람가<br>
+		   러닝타임 : ${movie_info.running_time}<br>
+		   <img src = "image/${movie_info.poster}" width="200px"/>
+		</div>
+		
+		<table border = 1 >
+			<tr>
+		              
+		              <th>theater</th>
+		              <th>date</th>
+		              <th>time</th>
+		              <th>reservation</th>
+			</tr>
+		<c:forEach var = "List" items = "${scheduleList}">
+		 <tr>
+		 <c:url var ="seat_reservation" value="/hcj_servlet">
+			 <c:param name ="command" value="seatSelection"/>
+			 <c:param name = "sch_num" value = "${List.sch_num}"/>               
+		 </c:url>
+		 
+		<td>${List.theater}</td>
+		
+		<td>${List.date}</td>
+		
+		<td>${List.time}</td>
+		
+		<td><a href ="${seat_reservation}">seat_reservation</a></td>
+		</tr>
+		</c:forEach>
+		
+		</table> 
 	
-	<td>${List.date}</td>
-	
-	<td>${List.time}</td>
-	
-	<td><a href ="${seat_reservation}">seat_reservation</a></td>
-	</tr>
-	</c:forEach>
-	
-	</table> 
-
 </body>
 </html>

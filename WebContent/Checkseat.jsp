@@ -24,7 +24,8 @@
       </a>
    </div>
 
-<script>
+<script class="alert alert-primary">
 alert("좌석을 선택해 주세요")
 history.back();
+/* 좌석 선택을 하지 않았을 때 경고창을 띄운 후 이전페이지로 session 값을 넘김 */
 </script>
