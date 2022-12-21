@@ -17,13 +17,30 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    <link rel ="stylesheet" href="css/style.css">
 </head>
 <body>
 <div>
    <div class="text-center">
-      <a href="hcj_servlet?command=list">
-         <img src ="image/movie.png" width="80px"><h2>HCJ</h2>
-      </a>
+		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
+			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
+		</a>
+	</div>
+	
+	<div style = "text-align: right;">      
+   <c:if test="${id == null}">
+	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
+	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
+	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>
+	</c:if>  
+	<c:if test="${id != null}"> 
+		<i>hello <u>${id}</u>! nice to meet you</i><br>
+		<a href="Logout.jsp" class="btn btn-primary">Logout</a>
+		<c:url var = "reservationTicket" value="/hcj_servlet">
+				<c:param name = "command" value = "reservationticket"/>
+		</c:url>
+		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
+	</c:if>
    </div>
 
 <form action="hcj_servlet" method="POST">

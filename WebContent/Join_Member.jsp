@@ -19,6 +19,7 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    <link rel ="stylesheet" href="css/style.css">
     
     <script>
        $(document).ready(function(){   
@@ -65,10 +66,10 @@
 </head>
 <body>  
    <div class="text-center">
-      <a href="hcj_servlet?command=list">
-         <img src ="image/movie.png" width="80px"><h2>HCJ</h2>
-      </a>
-   </div> 
+		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
+			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
+		</a>
+	</div>
 
          <div>
          <form action = "hcj_servlet" method = "POST">

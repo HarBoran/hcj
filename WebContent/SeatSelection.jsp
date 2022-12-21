@@ -17,6 +17,7 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    <link rel ="stylesheet" href="css/style.css">
 
 	<style>
 	/* css not applied checkbox not visible */
@@ -56,8 +57,8 @@
 
 <body>
 	<div class="text-center">
-		<a href="hcj_servlet?command=list">
-			<img src ="image/movie.png" width="80px"><h2>HCJ</h2>
+		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
+			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
 		</a>
 	</div>
 	
@@ -68,7 +69,7 @@
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
 	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
-	   <a href ="CheckId_1.jsp" class="btn btn-primary">Join_member</a>   
+	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>
 	</c:if>  
 	<c:if test="${id != null}"> 
 		<i>hello <u>${id}</u>! nice to meet you</i><br>

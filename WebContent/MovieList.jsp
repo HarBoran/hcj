@@ -17,6 +17,7 @@
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
     crossorigin="anonymous"></script>    
     <script src = "js/script.js"></script>
+    <link rel ="stylesheet" href="css/style.css">
     
     <script>
 		$(document).ready(function(){
@@ -27,13 +28,6 @@
 	<style>
 	#background_image{
 		opacity: 0.14;
-	}
-	
-	h2 {
-	  font-family: "Sofia", sans-serif;
-	  font-variant: small-caps;
-	  color: gray; 
-	  font-size: 60px;
 	}
 	
 	</style>
@@ -53,8 +47,7 @@
    <div style = "text-align: right;">      
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
-	   <!-- <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  -->
-	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>   
+	   <a href ="Join_Member.jsp" class="btn btn-primary">Join_member</a>  
 	</c:if>  
 	<c:if test="${id != null}"> 
 		<i>hello <u>${id}</u>! nice to meet you</i><br>
@@ -83,38 +76,38 @@
 		  <div style = "text-align: center;"> 
 		    <div class="carousel-item active">
 		        <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[0].movie_num}">
-		               <img src = "image/${movie_list[0].poster}" id = "background_image" width="100%" height="500"/>
+		               <img src = "image/${movie_list[0].poster}" id = "background_image" width="100%" height="600"/>
 		            </a>
 		    </div>
 		    <div class="carousel-item">
 		                 <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[1].movie_num}">
-		               <img src = "image/${movie_list[1].poster}" id = "background_image" width="100%" height="500"/>
+		               <img src = "image/${movie_list[1].poster}" id = "background_image" width="100%" height="600"/>
 		            </a>
 		    </div>
 		    <div class="carousel-item">
 		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[2].movie_num}">
-		               <img src = "image/${movie_list[2].poster}" id = "background_image" width="100%" height="500"/>
+		               <img src = "image/${movie_list[2].poster}" id = "background_image" width="100%" height="600"/>
 		            </a>
 		    </div>
 		     <div class="carousel-item">
 		                  <a href="hcj_servlet?command=movieTime&movieNum=${movie_list[3].movie_num}">
-		               <img src = "image/${movie_list[3].poster}" id = "background_image" width="100%" height="500"/>
+		               <img src = "image/${movie_list[3].poster}" id = "background_image" width="100%" height="600"/>
 		            </a>
 		    </div>		  
 		  
 		  <!-- Left and right controls -->
-		  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+		  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
 		    <span class="carousel-control-prev-icon"></span>
 		  </a>
 		  <a class="carousel-control-next" href="#demo" data-slide="next">
 		    <span class="carousel-control-next-icon"></span>
-		  </a>
+		  </a> -->
 		  </div>
 	  </div>
 	</div>
    
 	<div class ="container">
-		<div class="row" style = "flex-wrap: nowrap; position: absolute; top:250px ; border: 0px solid #999;">  		       
+		<div class="row" style = "flex-wrap: nowrap; position: absolute; top:250px; border: 0px solid #999;">  		       
 			<c:forEach var = "arrMovie" items = "${movie_list}">
 				<div class="col-3"><!--  style = "flex-direction : column;"> -->
 					<!-- &nbsp;&nbsp;&nbsp; -->
@@ -122,7 +115,6 @@
 					   <img src = "image/${arrMovie.poster}" id = "poster" width="200px"/>
 					</a>
 					<br>
-					${arrMovie.trailer_url}
 					<div class="popupModalVideo">
 					    <a data-video="${arrMovie.trailer_url}" class="btn btn-info">예고편</a>
 					</div>
@@ -130,7 +122,7 @@
 				</div>					
 			</c:forEach>
 		</div>
-		<div class="video_modal_popup">
+		<div class="video_modal_popup" style = "border: 1px solid black; position: absolute; top:610px;">
 			<div class="video_modal_popup-closer"></div>
 		</div>	
 	</div>
