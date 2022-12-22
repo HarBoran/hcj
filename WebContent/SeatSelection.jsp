@@ -56,6 +56,7 @@
 </head>
 
 <body>
+<div class="container">
 	<div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
 			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
@@ -124,8 +125,8 @@
 				
 		</c:forEach>	
 		</table>	
-		<input type = "submit" value ="reservation"/>
+		<input class="btn btn-info" type = "submit" value ="reservation"/>
 	</form>
-
+</div>
 </body>
 </html>

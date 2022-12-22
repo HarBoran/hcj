@@ -20,6 +20,7 @@
     <link rel ="stylesheet" href="css/style.css">
 </head>
 <body>
+<div class="container">
 	<div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
 			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
@@ -30,5 +31,6 @@
 Please enter it in the correct way
 
 <a href = "Join_Member.jsp">return</a>
+</div>
 </body>
 </html>

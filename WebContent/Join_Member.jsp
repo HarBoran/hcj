@@ -40,7 +40,7 @@
              console.log("이건 어디에 나오나?")
 
           if($("#pwd").val() != $("#pwd_check").val()){
-             alert("비밀번호가 맞지 안습니다.")
+             alert("비밀번호가 맞지 않습니다.")
              return false;
              }
           });             
@@ -60,11 +60,12 @@
             $("#id_input").focus();
          });
       });
-   </script>   
-
+   </script>  
+ 
    
 </head>
 <body>  
+<div class="container">
    <div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
 			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
@@ -72,17 +73,19 @@
 	</div>
 
          <div>
-         <form action = "hcj_servlet" method = "POST">
+         <form action = "hcj_servlet" method = "POST" class="was-validated">
               
-         id : <input type = "text" name = "id"  placeholder = "only English" >
+         id : <input id= "idinput" type="text"class="form-control" name = "id"  placeholder = "only English" required >
+            <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
            <input type="hidden" name="command" value="checkId" />        
-          <input id="check_id" type = "submit" value = "checkId"><br><br>
+          <input class="btn btn-info" id="check_id" type = "submit" value = "checkId"><br><br>
      
       </form>
       </div>
    
          <%--    <c:set var = "id" value = <%request.getAttribute("id"); %>/> --%>
-      <form action = "hcj_servlet" method = "POST">
+      <form action = "hcj_servlet" method = "POST" class="was-validated" >
       <input type="hidden" name="command" value="JOIN" />
       <%-- <input type ="hidden" name="id" value =  "<%request.getAttribute("id_");%>"/> --%>
       <input type ="hidden" name="id_check" value = "${id_}"/>
@@ -110,21 +113,27 @@
                 --%>
          
       <hr>
-      id : <input type ="text" name ="id" id = "input_id" value="${id_ }"  placeholder =" readonly" readonly><br><br>
-      password : <input type = "password" name = "password" id= "pwd" placeholder = "only Number"><br><br>
-      password(check) : <input type = "password" id = "pwd_check" placeholder = "only Number"><br><br>
+      id : ${id_ }
+     <br><br>
+      password : <input type = "password" name = "password" id= "pwd" placeholder = "only Number" required>
+      <br><br>
+      password(check) : <input type = "password" id = "pwd_check" placeholder = "only Number" required>
+     <br><br>
       
-      name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
+      name : <input type = "text" name = "name" placeholder = "only English" required >
+     <br><br>
        
-      birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx"><br><br>
+      birth : <input type = "text" name = "birth" placeholder = "ex)xxxx-xx-xx" required>
+      <br><br>
        
-      phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx"><br><br>   
+      phone_num : <input type = "text" name = "phone_num" placeholder = "ex)xxx-xxxx-xxxx" required>
+     <br><br>   
    
       <% String str = UUID.randomUUID().toString().split("-")[1]; %>
       <% session.setAttribute("auth", str); %>
-      <input type ="submit" id = "join" value = "join">
+      <input class="btn btn-info" type ="submit" id = "join" value = "join">
  
    </form>
-
+</div>
    </body>
 </html>

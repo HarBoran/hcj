@@ -21,30 +21,29 @@
     
 </head>
 <body>
+<div class="container">
 	<div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
 			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
 		</a>
 	</div>
 
-<form action="hcj_servlet" method="post">
+<form action="hcj_servlet" method="post" class="was-validated">
 <input type="hidden" name="command" value="Login" />
+ <div class="form-group">
+ 		id: <input id= "idinput" type="text" class="form-control" name="id" required>
+           <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <div class="form-group">
+         password: <input id= "idinput" type="password" class="form-control" name="password" required>
+           <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+     
+         <input class="btn btn-info" type="submit" value="로그인">
+         <input class="btn btn-outline-info"type="reset" value="지우기">
+    </form>  
 
-   <table>
-      <tr>
-         <td>id</td>
-         <td><input type="text" name="id"></td>
-      </tr>
-      <tr>
-         <td>password</td>
-         <td><input type="password" name="password"></td>
-      </tr>
-      <tr>
-         <td colspan="2" style="text-align: center;">
-         <input type="submit" value="로그인">
-         <input type="reset" value="취소">
-         </td>
-      </tr>
-   </table>
-</form>
+</div>
 </body>

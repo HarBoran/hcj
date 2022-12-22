@@ -26,6 +26,7 @@
    
 
 <body>
+<div class="container">
 
 	<div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
@@ -85,6 +86,6 @@
 		</c:forEach>
 		
 		</table> 
-	
+	</div>
 </body>
 </html>

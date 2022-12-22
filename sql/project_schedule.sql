@@ -30,7 +30,9 @@ CREATE TABLE `schedule` (
   `time` varchar(45) NOT NULL,
   PRIMARY KEY (`sch_num`),
   KEY `index_idx` (`movie_num`),
-  CONSTRAINT `index` FOREIGN KEY (`movie_num`) REFERENCES `movie` (`movie_num`)
+  KEY `theater` (`theater`),
+  CONSTRAINT `index` FOREIGN KEY (`movie_num`) REFERENCES `movie` (`movie_num`),
+  CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`theater`) REFERENCES `seat` (`theater_num`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-20 16:12:56
+-- Dump completed on 2022-12-22 15:59:56

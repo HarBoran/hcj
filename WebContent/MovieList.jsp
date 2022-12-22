@@ -43,7 +43,7 @@
 	</div>
 	
 	<%String tempid = (String)session.getAttribute("id");%>
-	
+	<div class="container">
    <div style = "text-align: right;">      
    <c:if test="${id == null}">
 	   <a href="Login.jsp" class="btn btn-primary">Login</a>   
@@ -58,7 +58,7 @@
 		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
    </div>   
-   
+   </div>
 	<div id="demo" class="carousel slide" data-ride="carousel" style = "position :relative;">
 	
 	

@@ -20,7 +20,9 @@
     <link rel ="stylesheet" href="css/style.css">
 </head>
 <body>
+<div class="container">
 <div>
+<div class="container">
    <div class="text-center">
 		<a href="hcj_servlet?command=list" style = "text-decoration-line: none">
 			<img src ="image/movie.png" width="80px"><h2>HCJ cinema</h2>
@@ -43,30 +45,25 @@
 	</c:if>
    </div>
 
-<form action="hcj_servlet" method="POST">
-<input type = "hidden" name ="command" value= "Login"/>
-<input type = "hidden" name = "page" value = "page"/>
-<!--로그인 시 서블릿단으로 아이디와 패스워드를 파라미터 값으로 보냄  -->
-   <table>
-      <tr>
-         <td>id</td>
-         <td><input type="text" name="id"></td>
-      </tr>
-      <tr>
-         <td>password</td>
-         <td><input type="password" name="password"></td>
-      </tr>
-      <tr>
-         <td colspan="2" style="text-align: center;">
-         <input type="submit" value="로그인">
-         <input type="reset" value="취소">
-         </td>
-      </tr>
-   </table>
-</form>
-</div><br><br>
-<div>
-<form action = "hcj_servlet" method= "POST">
+
+<form action="hcj_servlet" method="post" class="was-validated">
+<input type="hidden" name="command" value="Login" />
+ <div class="form-group">
+ 		id: <input id= "idinput" type="text" class="form-control" name="id" required>
+           <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <div class="form-group">
+         password: <input id= "idinput" type="password" class="form-control" name="password" required>
+           <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+     
+        <input class="btn btn-info" type="submit" value="로그인">
+         <input class="btn btn-outline-info"type="reset" value="지우기">
+    </form>  <br>
+    <hr>
+<form action = "hcj_servlet" method= "POST" class="was-validated">
 <input type="hidden" name="command" value="nonUser" />
    
        name : <input type = "text" name = "name" placeholder = "only English" ><br><br>
@@ -77,13 +74,14 @@
 
 
 
-      <input type="submit" value="비회원로그인">
+      <input class="btn btn-info" type="submit" value="비회원로그인">
 
 </form>
 
 </div>
+</div>
 
-
+</div>
 
 
 </body>

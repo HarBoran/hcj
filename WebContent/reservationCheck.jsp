@@ -37,8 +37,9 @@
 		<td><a href = "${reservationTicket}" class="btn btn-info">reservationCheck</a>
 	</c:if>
 	</div>
+	<div class="container">
 	<h2>Reservation information</h2>
-		<table border = "2">
+		<table class="table table-hover" border = "2">
 			<tr>
 				<th>title</th>
 				<th>date</th>
@@ -97,6 +98,7 @@
 			
 			</c:forEach>
 			</table>
+			</div>
 	
 </body>
 </html>
