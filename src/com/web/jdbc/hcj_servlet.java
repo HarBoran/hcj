@@ -81,44 +81,28 @@ public class hcj_servlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        
-	         String CheckPage = request.getParameter("command");
+		try {
+	        String CheckPage = request.getParameter("command");
 
 	         switch(CheckPage){
 	            case "checkId":
-					try {
-						checkId(request,response);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					checkId(request,response);
 					break;
 	            case "JOIN" :	           
-			         try {
-			            joinMember(request,response);
-			         } catch (Exception e) {
-			            // TODO Auto-generated catch block
-			            e.printStackTrace();
-			         }
+	            	joinMember(request,response);
 			         break;
 	            case "nonUser" :
-			         try {
-			            nonUser(request,response);
-			         } catch (Exception e) {
-			            // TODO Auto-generated catch block
-			            e.printStackTrace();
-			         }
+			         nonUser(request,response);
 			         break;
 	            case "Login":
-			         try {
-			            Login(request,response);
-			         } catch (Exception e) {
-			            // TODO Auto-generated catch block
-			            e.printStackTrace();
-					}
-			         break;			               
-	         }
-	      }
+	            	Login(request,response);
+	            	break;
+	         	}
+        	}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	   
 	   //영화들을 리스트화 해서 배열로 불러오기 위한 메소드
 	public void listMovies(HttpServletRequest request, HttpServletResponse response) throws Exception{
