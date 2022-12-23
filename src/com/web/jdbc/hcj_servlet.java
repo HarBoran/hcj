@@ -86,24 +86,17 @@ public class hcj_servlet extends HttpServlet {
 
 	         switch(CheckPage){
 	            case "checkId":
-			         try {
-			            checkId(request,response);
-			         } catch (ServletException e1) {
-			            // TODO Auto-generated catch block
-			            e1.printStackTrace();
-			         } catch (IOException e1) {
-			            // TODO Auto-generated catch block
-			            e1.printStackTrace();
-			         } catch (SQLException e1) {
-			            // TODO Auto-generated catch block
-			            e1.printStackTrace();
-			         }
-			         break;
-	            case "JOIN" :
-	           
+					try {
+						checkId(request,response);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+	            case "JOIN" :	           
 			         try {
 			            joinMember(request,response);
-			         } catch (ServletException | IOException | SQLException e) {
+			         } catch (Exception e) {
 			            // TODO Auto-generated catch block
 			            e.printStackTrace();
 			         }
@@ -111,7 +104,7 @@ public class hcj_servlet extends HttpServlet {
 	            case "nonUser" :
 			         try {
 			            nonUser(request,response);
-			         } catch (ServletException | IOException | SQLException e) {
+			         } catch (Exception e) {
 			            // TODO Auto-generated catch block
 			            e.printStackTrace();
 			         }
@@ -119,12 +112,9 @@ public class hcj_servlet extends HttpServlet {
 	            case "Login":
 			         try {
 			            Login(request,response);
-			         } catch (ServletException | IOException | SQLException e) {
+			         } catch (Exception e) {
 			            // TODO Auto-generated catch block
 			            e.printStackTrace();
-			         } catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 			         break;			               
 	         }
@@ -193,11 +183,13 @@ public class hcj_servlet extends HttpServlet {
    	         session.setAttribute("sch_num", sch_num);
    	         session.setAttribute("seat_index", seat_index);     
    	         //seat_index가 비어있으면(좌석선택이 되지않으면) Checkseat으로 페이지 이동
-   	         if(seat_index==null){RequestDispatcher dispatcher = request.getRequestDispatcher("/Checkseat.jsp");
+   	         if(seat_index==null){
+   	        	 RequestDispatcher dispatcher = request.getRequestDispatcher("/Checkseat.jsp");
    	            dispatcher.forward(request, response);}
    	          //response.sendRedirect(request.getContextPath()+"/User_nonUser.jsp");
    	         //seat_index에 값이 있으면 User_nonUser페이지로 이동
-   	         else if(seat_index !=null) {RequestDispatcher dispatcher = request.getRequestDispatcher("/User_nonUser.jsp");
+   	         else if(seat_index !=null) {
+   	        	 RequestDispatcher dispatcher = request.getRequestDispatcher("/User_nonUser.jsp");
    	            dispatcher.forward(request, response);//만약 받아온 세션아이디가 null이면 User_nonUser page로가서 로그인이나 비회원 로그인을 하도록 유도
    	         }
    	      }else if(!id.equals("null")) {
@@ -251,7 +243,7 @@ public class hcj_servlet extends HttpServlet {
    	   }   
          
    //로그인 과정을 처리하는 메소드
-   private void Login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+   private void Login(HttpServletRequest request, HttpServletResponse response) throws Exception {
          
          String id = request.getParameter("id");
          String pw = request.getParameter("password");
@@ -297,7 +289,7 @@ public class hcj_servlet extends HttpServlet {
 		}
    
    //회원가입시 ID 중복체크를 위한 메소드
-   public void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+   public void checkId(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	      String id = request.getParameter("id");
 
 	      request.setAttribute("id", id);
@@ -319,7 +311,7 @@ public class hcj_servlet extends HttpServlet {
 	}   
   
    //회원가입을 위한 메소드
-   public void joinMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+   public void joinMember(HttpServletRequest request, HttpServletResponse response) throws Exception{
        //정규표현식으로 input값 제한
        String reg = "^[a-zA-Z]*$";
        String regBirthdate = "^([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$";

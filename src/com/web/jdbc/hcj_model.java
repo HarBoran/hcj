@@ -1,24 +1,15 @@
 package com.web.jdbc;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.sql.DataSource;
 
 public class hcj_model {
 	
@@ -49,19 +40,14 @@ private DataSource dataSource;
 	            String poster = myRs.getString("poster");
 	            String trailer_url = myRs.getString("trailer_url");
                 MovieList_dto tempMovie = new MovieList_dto(movie_num,title,genre,age_limit,running_time,poster, trailer_url);
-                Movies.add(tempMovie);
-	          
-	   
+                Movies.add(tempMovie);	   
 	         }
-	         return Movies;
-	         
+	      }catch(Exception e) {
+		         e.printStackTrace();
+	      }finally {
+	    	  close(conn,mySt,myRs);
 	      }
-	      finally {
-	         myRs.close();
-	         mySt.close();
-	         conn.close();
-	      }
-	      
+	      return Movies;
 	   }
 
 	public List<movie_dto> MovieTime (int moviename1) throws Exception {
@@ -85,6 +71,8 @@ private DataSource dataSource;
 	         }
 	      }catch(Exception e) {
 	         e.printStackTrace();
+	      }finally {
+	    	  close(conn,mySt,myRs);
 	      }
 	      return MovieTime;
 	      		      
@@ -114,17 +102,20 @@ private DataSource dataSource;
               reservation_dto seat = new reservation_dto(myRs.getInt("sch_num"),myRs.getInt("seat_index"), myRs.getString("seat_name"));
               seats.add(seat);
            }
-           return seats;
-     
-        }finally {
-           close(conn, mySt, myRs);
-        }
+
+        }catch(Exception e) {
+	         e.printStackTrace();
+	     }finally {
+	   	  close(conn,mySt,myRs);
+	     }
+        return seats;
      }
 	
 	public int sessionidChangeUserTable(String id) throws Exception{
 		Connection conn = null;
 		PreparedStatement pst = null;
-		ResultSet myRs = null;			
+		ResultSet myRs = null;	
+		int user_index= 0;
 
 		try{
 			conn = dataSource.getConnection();
@@ -135,13 +126,14 @@ private DataSource dataSource;
 			myRs = pst.executeQuery();
 			myRs.next();
 			
-			int user_index = myRs.getInt("user_index");
-			return user_index;
-	
+			user_index = myRs.getInt("user_index");
 			
+		}catch(Exception e) {
+		       e.printStackTrace();
 		}finally {
-			close(conn, pst, myRs);
+			close(conn,pst,myRs);
 		}
+		return user_index;
 	}
 	
 	public void user_reservation(reservation_dto reservation) throws Exception{
@@ -229,77 +221,89 @@ private DataSource dataSource;
 
                myRs = mySt.executeQuery(sql);                
 
-                 while(myRs.next()) {
-                    reservationTicket_dto reservationTickets = new reservationTicket_dto(
-                    		myRs.getString("poster"),
-                             myRs.getInt("index"),
-                             myRs.getString("title"), 
-                             myRs.getString("date"), 
-                             myRs.getString("time"), 
-                             myRs.getString("running_time"), 
-                             myRs.getInt("theater"), 
-                             myRs.getString("seat_name"));
-                            reservations_Ticket.add(reservationTickets);   
-                          
-                      }
-                 myRs.close();
-           }
-
-                
-              }finally {
-                close(conn,mySt,myRs);
-             }
+	                 while(myRs.next()) {
+	                    reservationTicket_dto reservationTickets = new reservationTicket_dto(
+                		myRs.getString("poster"),
+                        myRs.getInt("index"),
+                        myRs.getString("title"), 
+                        myRs.getString("date"), 
+                        myRs.getString("time"), 
+                        myRs.getString("running_time"), 
+                        myRs.getInt("theater"), 
+                        myRs.getString("seat_name"));
+                        reservations_Ticket.add(reservationTickets);   
+	                 }
+       	      }
+		}catch(Exception e) {
+			e.printStackTrace();      
+		
+		}finally {
+			close(conn,mySt,myRs);
+		}
         return reservations_Ticket;
      
         
      }   
 	
-	public boolean Login (String id , String password) throws SQLException, ServletException, IOException {
+	public boolean Login (String id , String password) throws Exception {
         Connection conn;
         Statement mySt;
         ResultSet myRs;
-		
+		boolean a = false;
 		
 		  conn = dataSource.getConnection();
 		  mySt = conn.createStatement();
 		  myRs = mySt.executeQuery("select id , password from user");
-		  
-		  HashMap<String,String> IDPWD = new HashMap<>();
-		  // HashMap으로 데이터베이스에서 id 와 password를 불러와 일치여부 확인
-		  while(myRs.next()) {
-		     String id_ = myRs.getString("id"); 
-		     String pwd_ = myRs.getString("password");
-		     IDPWD.put(id_, pwd_);
-		  }
-		  boolean a = (IDPWD.containsKey(id) && IDPWD.get(id).equals(password));   
-		  return a;
+		  try {
+			  HashMap<String,String> IDPWD = new HashMap<>();
+			  // HashMap으로 데이터베이스에서 id 와 password를 불러와 일치여부 확인
+			  while(myRs.next()) {
+			     String id_ = myRs.getString("id"); 
+			     String pwd_ = myRs.getString("password");
+			     IDPWD.put(id_, pwd_);
+			  }
+			  a = (IDPWD.containsKey(id) && IDPWD.get(id).equals(password));
+	      }catch(Exception e) {
+		         e.printStackTrace();  
 
-			// 리턴 값으로 true 나 false를 반환 . 서블릿 단에서 호출 할 예정
-			// end login()
+	      }finally{
+	         close(conn, mySt, myRs);         
+	      }
+		return a;
+		
+		// 리턴 값으로 true 나 false를 반환 . 서블릿 단에서 호출 할 예정
+		// end login()
 	}
 
-	public boolean checkId(String id) throws SQLException, ServletException, IOException {
-	      Connection conn;
+	public boolean checkId(String id) throws Exception {
+	      Connection conn = null;
 	      Statement mySt = null;
 	      ResultSet myRs = null;
-	      
-	      conn = dataSource.getConnection();
-	      mySt = conn.createStatement();
-	      myRs = mySt.executeQuery("select id from user" );
-	      
 	      List<String> Id = new ArrayList<>();
-	      
-	      while(myRs.next()) {
-	         String id_ = myRs.getString("id");
-	         Id.add(id_);
+	      try{
+		      conn = dataSource.getConnection();
+		      mySt = conn.createStatement();
+		      myRs = mySt.executeQuery("select id from user" );
+		      
+		      
+		      
+			      while(myRs.next()) {
+			         String id_ = myRs.getString("id");
+			         Id.add(id_);
+			      }
+	      }catch(Exception e) {
+		         e.printStackTrace();  
+
+	      }finally{
+	    	  close(conn, mySt, myRs);         
 	      }
 	      return Id.contains(id);
 	   }
 	
-	public void joinMember(String id , String name , String birth , String phone_num , String password) {
+	public void joinMember(String id , String name , String birth , String phone_num , String password) throws Exception {
         
-	      Connection conn;
-	      PreparedStatement mySt ;
+	      Connection conn = null;
+	      PreparedStatement mySt = null;
 	      
 	      try {
 	         conn= dataSource.getConnection();
@@ -313,7 +317,10 @@ private DataSource dataSource;
 	         
 	         mySt.execute();
 	      }catch(Exception e) {
-	         
+		         e.printStackTrace();  
+
+	      }finally{
+	         close(conn, mySt, null);         
 	      }
 	         
 	   
@@ -353,11 +360,14 @@ private DataSource dataSource;
               reservationTickets.add(reservationTicket);
               
               }
-              return reservationTickets;
-     
-        }finally{
-           close(conn, mySt, myRs);
-        }   
+ 
+	      }catch(Exception e) {
+		         e.printStackTrace();  
+
+	      }finally{
+	    	  close(conn, mySt, myRs);         
+	      }
+        return reservationTickets;
      }      	
 	
 	public List<reservationTicket_dto> canceledTicketLookUp (int id) throws Exception{
@@ -392,11 +402,13 @@ private DataSource dataSource;
               canceledTickets.add(canceledTicket);
               
               }
-              return canceledTickets;
-     
-        }finally{
-           close(conn, mySt, myRs);
-        }   
+	      }catch(Exception e) {
+		         e.printStackTrace();  
+
+	      }finally{
+	    	  close(conn, mySt, myRs);         
+	      }
+        return canceledTickets;
      }  	
 	
 	public String indexToMultipleseat(int index) throws Exception{
